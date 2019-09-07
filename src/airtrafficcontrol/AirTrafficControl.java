@@ -18,8 +18,8 @@ import java.util.Arrays;
  */
 public class AirTrafficControl {
     
-    String[] codes = new String[1];//to airport identifications
-    double[][] FTimes = new double[1][];//to Flight Times
+    String[] codes = new String[1]; //to airport identifications
+    double[][] FTimes = new double[1][]; //to Flight Times
     
     
     /**
@@ -29,9 +29,19 @@ public class AirTrafficControl {
         AirTrafficControl atc = new AirTrafficControl();
         
         atc.loadData();
-        atc.display();
         
         atc.insertAirport("DTH");
+        atc.insertAirport("KLM");
+        
+        atc.display();
+        
+        atc.deleteAirport("DTH");
+        atc.insertAirport("THJ");
+        atc.insertAirport("VGH");
+        
+        atc.display();
+        
+        atc.deleteAirport("CMB");
     }
     
     void loadData() {       
@@ -81,44 +91,82 @@ public class AirTrafficControl {
         }
     }
     
-    void insertAirport(String newCode)
-    {
+    int codeSearch(String[] array,String key) {
+        for(int i=0;i<array.length;i++) {
+            if(array[i].equals(key)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+    
+    void insertAirport(String newCode) {
         String[] temp = new String[codes.length+1];
         double[][] tempF = new double[temp.length][temp.length];
         
         /* for(int i=0;i<codes.length;i++) {
             temp[i] = codes[i];
         } */
+        
+        // ( src_arr, src_start_index, des_arr, des_start_index, items_count )
         System.arraycopy(codes, 0, temp, 0, codes.length);
         
+        // add item to last element
         temp[codes.length] = newCode;
         
+        // sort to asc
         Arrays.sort(temp);
         
         codes = temp;
         
+        // ( arr, key ) | to get the arr index
         int addedIndex = Arrays.binarySearch(temp,newCode);
         
-        for(int i=0, k=0;i<temp.length;i++)
-        {
-            for(int j=0,l=0;j<temp.length;j++)
-            {
-                if(i==addedIndex||j==addedIndex)
-                {
-                
-                }
-                else
-                {
+        //System.out.println(addedIndex);
+        
+        for(int i=0, k=0; i<temp.length; i++) {
+            for(int j=0, l=0; j<temp.length; j++) {
+                if(i==addedIndex||j==addedIndex) {
+                    //
+                } else {
                     tempF[i][j] = FTimes[k][l] ;
                     l++;
                 }
             }
-            if(i!=addedIndex)
-            {
+            if(i!=addedIndex) {
                 k++;
             }
         }
+        
         FTimes = tempF;
+    }
+    
+    void deleteAirport(String deleteValue) {
+        int deleteIndex = Arrays.binarySearch(codes,deleteValue);
+        
+        String[] temp = new String[codes.length-1];
+        double[][] tempF = new double[temp.length][temp.length];
+        
+        System.arraycopy(codes, 0, temp, 0, deleteIndex);
+        System.arraycopy(codes,deleteIndex+1, temp,deleteIndex, temp.length-deleteIndex);
+        
+        codes = temp;
+        
+         for(int i=0, k=0;i<FTimes.length;i++) {
+            for(int j=0,l=0;j<FTimes.length;j++) {
+                if(i==deleteIndex||j==deleteIndex) {
+                    //
+                } else {
+                    tempF[k][l] = FTimes[i][j] ;
+                    l++;
+                }
+            }
+            if(i!=deleteIndex) {
+                k++;
+            }
+        }
+        FTimes = tempF;  
+        display(); 
     }
     
     void display() {
