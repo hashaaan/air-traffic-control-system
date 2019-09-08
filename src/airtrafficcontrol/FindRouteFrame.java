@@ -70,6 +70,8 @@ public class FindRouteFrame extends javax.swing.JFrame {
         jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(766, 508));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
