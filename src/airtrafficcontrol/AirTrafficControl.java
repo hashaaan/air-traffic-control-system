@@ -5,6 +5,7 @@
  */
 package airtrafficcontrol;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -26,9 +27,20 @@ public class AirTrafficControl {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        FindRouteUI fr = new FindRouteUI();
+        
+        
+        
+        fr.setDefaultCloseOperation(FindPathFrame.EXIT_ON_CLOSE);
+        fr.setResizable(false);
+        fr.setLocationRelativeTo(null);
+        fr.setVisible(true);
+        
+        
         AirTrafficControl atc = new AirTrafficControl();
         
-        atc.loadData();
+        /*atc.loadData();
         
         atc.insertAirport("DTH");
         atc.insertAirport("KLM");
@@ -41,7 +53,7 @@ public class AirTrafficControl {
         
         atc.display();
         
-        atc.deleteAirport("CMB");
+        atc.deleteAirport("CMB");*/
     }
     
     void loadData() {       
