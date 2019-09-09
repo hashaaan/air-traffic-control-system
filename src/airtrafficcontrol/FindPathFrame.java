@@ -44,6 +44,8 @@ public class FindPathFrame extends javax.swing.JFrame {
         jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(766, 508));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N

@@ -37,6 +37,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(766, 508));
         getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N

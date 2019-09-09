@@ -25,6 +25,7 @@ public class FindRouteUI extends javax.swing.JFrame {
     public FindRouteUI() {
         initComponents();
         txtFrom.setInputVerifier(new PassVerifier());
+        txtTo.setInputVerifier(new PassVerifier());
     }
 
     /**
@@ -54,6 +55,7 @@ public class FindRouteUI extends javax.swing.JFrame {
         txtTo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtTo.setForeground(new java.awt.Color(19, 11, 11));
         txtTo.setToolTipText("");
+        txtTo.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         txtTo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtToActionPerformed(evt);
@@ -67,7 +69,7 @@ public class FindRouteUI extends javax.swing.JFrame {
         txtFrom.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtFrom.setForeground(new java.awt.Color(19, 11, 11));
         txtFrom.setToolTipText("From");
-        txtFrom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtFrom.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         txtFrom.setInheritsPopupMenu(true);
         txtFrom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,7 +118,7 @@ public class FindRouteUI extends javax.swing.JFrame {
                 .addComponent(mainTitle)
                 .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
