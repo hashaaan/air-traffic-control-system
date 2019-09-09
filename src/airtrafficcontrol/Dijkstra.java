@@ -22,8 +22,7 @@ class Vertex implements Comparable<Vertex> {
     public Vertex previous;
     public Vertex(String argName) { name = argName; }
     public String toString() { return name; }
-    public int compareTo(Vertex other)
-    {
+    public int compareTo(Vertex other) {
         return Double.compare(minDistance, other.minDistance);
     }
 
