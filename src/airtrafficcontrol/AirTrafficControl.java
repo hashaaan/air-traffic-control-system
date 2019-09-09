@@ -5,7 +5,6 @@
  */
 package airtrafficcontrol;
 
-import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -38,7 +37,7 @@ public class AirTrafficControl {
         fr.setVisible(true);
         
         
-        AirTrafficControl atc = new AirTrafficControl();
+        // AirTrafficControl atc = new AirTrafficControl();
         
         /*atc.loadData();
         
@@ -58,7 +57,7 @@ public class AirTrafficControl {
     
     void loadData() {       
         try {
-            // Database Cnnection
+            // Database Connection
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/air_traffic_control","air_traffic", "123456");
             
             // Load airport data from database
