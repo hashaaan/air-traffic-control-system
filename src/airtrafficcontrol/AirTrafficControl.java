@@ -90,8 +90,7 @@ public class AirTrafficControl {
             rst = st.executeQuery(sql);
             
             //load Flighttime data to array
-            while(rst.next())
-            {
+            while(rst.next()) {
                 int source = Arrays.binarySearch(codes,rst.getString("source"));
                 int destination = Arrays.binarySearch(codes,rst.getString("destination"));
                 FTimes[source][destination] = rst.getDouble("flight_time");

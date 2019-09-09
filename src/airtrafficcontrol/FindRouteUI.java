@@ -24,7 +24,6 @@ import javax.swing.border.Border;
  * @author hashan
  */
 public class FindRouteUI extends javax.swing.JFrame {
-    String[] codes = new String[1];
     Vertex[] airports = new Vertex[1];
 
     /**
@@ -36,7 +35,7 @@ public class FindRouteUI extends javax.swing.JFrame {
         txtTo.setInputVerifier(new PassVerifier());
         
         loadDataPQ();
-        printAirports();
+        //displayAirports();
     }
 
     /**
@@ -55,6 +54,7 @@ public class FindRouteUI extends javax.swing.JFrame {
         txtFrom = new javax.swing.JTextField();
         btnFind = new javax.swing.JButton();
         errFrom = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(" Air Traffic Control System");
@@ -96,6 +96,8 @@ public class FindRouteUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Minimum Duration :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,21 +108,24 @@ public class FindRouteUI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(228, 228, 228))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(errFrom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtFrom, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
-                        .addGap(42, 42, 42)
-                        .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(93, 93, 93))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(mainTitle)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(errFrom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtFrom, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
+                                .addGap(42, 42, 42)
+                                .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(93, 93, 93))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,7 +142,9 @@ public class FindRouteUI extends javax.swing.JFrame {
                 .addComponent(errFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addGap(47, 47, 47)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(178, Short.MAX_VALUE))
         );
 
         pack();
@@ -153,11 +160,31 @@ public class FindRouteUI extends javax.swing.JFrame {
 
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
         // TODO add your handling code here:
-        String from = txtFrom.getText();
-        String to = txtTo.getText();
+        String src = txtFrom.getText();
+        String dest = txtTo.getText();
+        
+        System.out.println("Find! ===> src: "+src+" dest: "+dest);
+        
+        Dijkstra dij = new Dijkstra();
+        
+        // find source airport
+        for (Vertex airportSrc : airports) {
+            if(airportSrc.name.equals(src)){
+                dij.computePaths(airportSrc);
+                // find destination airport
+                for (Vertex airportDest : airports) {
+                    if(airportDest.name.equals(dest)){
+                        System.out.println("Distance to " + airportDest.name + ": " + airportDest.minDistance);
+                        List<Vertex> path = dij.getShortestPathTo(airportDest);
+                        System.out.println("Path: " +path+"\n");
+                        
+                    }
+                }
+            }
+        }
         //FindRouteUI fr = new FindRouteUI();
         //fr.validateInput();
-        System.out.println("From: " + from + " To: " + to);
+        //System.out.println("From: " + from + " To: " + to);
     }//GEN-LAST:event_btnFindActionPerformed
 
     /**
@@ -196,27 +223,42 @@ public class FindRouteUI extends javax.swing.JFrame {
         });
     }
     
-    /*
-    private void validateInput() {
+    /* private void validateInput() {
         String from = txtFrom.getText();
         if(from.equals("")){
             System.out.println("Error!" + from);
         } 
     }*/
     
-    private void printAirports() {
+    /* private void displayAirports() {
         for (Vertex airport : airports) {
             System.out.println(airport);
+        }
+    }*/
+    
+    private void setEdgesAndWeight(String src, String dest, double duration) {
+        System.out.println("src: "+src+" dest: "+dest+" dur: "+duration);
+        // find source airport
+        for (Vertex airportSrc : airports) {
+            if(airportSrc.name.equals(src)){
+                // find destination airport
+                for (Vertex airportDest : airports) {
+                    if(airportDest.name.equals(dest)){
+                        airportSrc.adjacencies = new Edge[]{ new Edge(airportDest, duration) };
+                    }
+                }
+            }
         }
     }
     
     private void loadDataPQ() {
         int count=0;
         
-        Dijkstra dij = new Dijkstra();
+        // Dijkstra dij = new Dijkstra();
         
-        // Database Cnnection
+        // Database Connection
         try {
+            
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/air_traffic_control","air_traffic", "123456");
             
             // Load airport data from database
@@ -228,58 +270,76 @@ public class FindRouteUI extends javax.swing.JFrame {
                count++;
             }
             
-            codes = new String[count]; //initaiaze
             airports = new Vertex[count]; //initaiaze airports
             
             //Load airport identifications to array
             while(rst.previous()) {
                 count--;
-                String akey = rst.getString("akey"); 
-                codes[count] = akey;    
+                String akey = rst.getString("akey");    
                 airports[count] = new Vertex(akey);
             }
             
+            //Get flight time data from database
+            sql = "select * from times order by source";
+            rst = st.executeQuery(sql);
             
+            //load Flighttime data to airports array
+            while(rst.next()) {
+                String src = rst.getString("source");
+                String dest = rst.getString("destination");
+                double duration = rst.getDouble("flight_time");
+                
+                // set edges and duration
+                setEdgesAndWeight(src, dest, duration);
+            }
+            
+            System.out.println("====================");
             
         } catch (SQLException ex) {
             System.out.println("SQL Error "+ ex.getMessage());
         }
         
         // mark all the vertices
-        Vertex A = new Vertex("A");
-        Vertex B = new Vertex("B");
-        Vertex D = new Vertex("D");
-        Vertex F = new Vertex("F");
-        Vertex K = new Vertex("K");
-        Vertex J = new Vertex("J");
-        Vertex M = new Vertex("M");
-        Vertex O = new Vertex("O");
-        Vertex P = new Vertex("P");
-        Vertex R = new Vertex("R");
-        Vertex Z = new Vertex("Z");
+        //Vertex A = new Vertex("A");
+        //Vertex B = new Vertex("B");
+        //Vertex D = new Vertex("D");
+        //Vertex F = new Vertex("F");
+        //Vertex K = new Vertex("K");
+        //Vertex J = new Vertex("J");
+        //Vertex M = new Vertex("M");
+        //Vertex O = new Vertex("O");
+        //Vertex P = new Vertex("P");
+        //Vertex R = new Vertex("R");
+        //Vertex Z = new Vertex("Z");
         
         // set the edges and weight
-        A.adjacencies = new Edge[]{ new Edge(M, 8) };
-        B.adjacencies = new Edge[]{ new Edge(D, 11) };
-        D.adjacencies = new Edge[]{ new Edge(B, 11) };
-        F.adjacencies = new Edge[]{ new Edge(K, 23) };
-        K.adjacencies = new Edge[]{ new Edge(O, 40) };
-        J.adjacencies = new Edge[]{ new Edge(K, 25) };
-        M.adjacencies = new Edge[]{ new Edge(R, 8) };
-        O.adjacencies = new Edge[]{ new Edge(K, 40) };
-        P.adjacencies = new Edge[]{ new Edge(Z, 18) };
-        R.adjacencies = new Edge[]{ new Edge(P, 15) };
-        Z.adjacencies = new Edge[]{ new Edge(P, 18) };
+        //A.adjacencies = new Edge[]{ new Edge(M, 8) };
+        //B.adjacencies = new Edge[]{ new Edge(D, 11) };
+        //D.adjacencies = new Edge[]{ new Edge(B, 11) };
+        //F.adjacencies = new Edge[]{ new Edge(K, 23) };
+        //K.adjacencies = new Edge[]{ new Edge(O, 40) };
+        //J.adjacencies = new Edge[]{ new Edge(K, 25) };
+        //M.adjacencies = new Edge[]{ new Edge(R, 8) };
+        //O.adjacencies = new Edge[]{ new Edge(K, 40) };
+        //P.adjacencies = new Edge[]{ new Edge(Z, 18) };
+        //R.adjacencies = new Edge[]{ new Edge(P, 15) };
+        //Z.adjacencies = new Edge[]{ new Edge(P, 18) };
         
-        dij.computePaths(A);
+        //dij.computePaths(A);
         //System.out.println("Distance to " + Z + ": " + Z.minDistance);
-        List<Vertex> path = dij.getShortestPathTo(Z);
+        //List<Vertex> path = dij.getShortestPathTo(Z);
         //System.out.println("Path: " + path);
+        
+        /* dij.computePaths(airports[0]);
+        System.out.println("Distance to " + airports[1].name + ": " + airports[1].minDistance);
+        List<Vertex> path = dij.getShortestPathTo(airports[1]);
+        System.out.println("Path: " + path);*/
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFind;
     private javax.swing.JLabel errFrom;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel labelFrom;
     private javax.swing.JLabel labelTo;
     private javax.swing.JLabel mainTitle;
