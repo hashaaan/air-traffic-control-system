@@ -7,6 +7,12 @@ package airtrafficcontrol;
  */
 
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
@@ -18,6 +24,8 @@ import javax.swing.border.Border;
  * @author hashan
  */
 public class FindRouteUI extends javax.swing.JFrame {
+    String[] codes = new String[1];
+    Vertex[] airports = new Vertex[1];
 
     /**
      * Creates new form ControlPanel
@@ -26,6 +34,9 @@ public class FindRouteUI extends javax.swing.JFrame {
         initComponents();
         txtFrom.setInputVerifier(new PassVerifier());
         txtTo.setInputVerifier(new PassVerifier());
+        
+        loadDataPQ();
+        printAirports();
     }
 
     /**
@@ -90,33 +101,33 @@ public class FindRouteUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(89, 89, 89)
+                .addContainerGap(89, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(228, 228, 228))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(errFrom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtFrom, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
+                        .addGap(42, 42, 42)
+                        .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(93, 93, 93))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(mainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(errFrom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtFrom, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(117, Short.MAX_VALUE))))
+                        .addGap(39, 39, 39)
+                        .addComponent(mainTitle)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(40, 40, 40)
                 .addComponent(mainTitle)
-                .addGap(59, 59, 59)
+                .addGap(58, 58, 58)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -185,11 +196,85 @@ public class FindRouteUI extends javax.swing.JFrame {
         });
     }
     
+    /*
     private void validateInput() {
         String from = txtFrom.getText();
         if(from.equals("")){
             System.out.println("Error!" + from);
         } 
+    }*/
+    
+    private void printAirports() {
+        for (Vertex airport : airports) {
+            System.out.println(airport);
+        }
+    }
+    
+    private void loadDataPQ() {
+        int count=0;
+        
+        Dijkstra dij = new Dijkstra();
+        
+        // Database Cnnection
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/air_traffic_control","air_traffic", "123456");
+            
+            // Load airport data from database
+            String sql = "select * from airports order by akey";
+            Statement st = con.createStatement();
+            ResultSet rst = st.executeQuery(sql);
+            
+            while(rst.next()) {
+               count++;
+            }
+            
+            codes = new String[count]; //initaiaze
+            airports = new Vertex[count]; //initaiaze airports
+            
+            //Load airport identifications to array
+            while(rst.previous()) {
+                count--;
+                String akey = rst.getString("akey"); 
+                codes[count] = akey;    
+                airports[count] = new Vertex(akey);
+            }
+            
+            
+            
+        } catch (SQLException ex) {
+            System.out.println("SQL Error "+ ex.getMessage());
+        }
+        
+        // mark all the vertices
+        Vertex A = new Vertex("A");
+        Vertex B = new Vertex("B");
+        Vertex D = new Vertex("D");
+        Vertex F = new Vertex("F");
+        Vertex K = new Vertex("K");
+        Vertex J = new Vertex("J");
+        Vertex M = new Vertex("M");
+        Vertex O = new Vertex("O");
+        Vertex P = new Vertex("P");
+        Vertex R = new Vertex("R");
+        Vertex Z = new Vertex("Z");
+        
+        // set the edges and weight
+        A.adjacencies = new Edge[]{ new Edge(M, 8) };
+        B.adjacencies = new Edge[]{ new Edge(D, 11) };
+        D.adjacencies = new Edge[]{ new Edge(B, 11) };
+        F.adjacencies = new Edge[]{ new Edge(K, 23) };
+        K.adjacencies = new Edge[]{ new Edge(O, 40) };
+        J.adjacencies = new Edge[]{ new Edge(K, 25) };
+        M.adjacencies = new Edge[]{ new Edge(R, 8) };
+        O.adjacencies = new Edge[]{ new Edge(K, 40) };
+        P.adjacencies = new Edge[]{ new Edge(Z, 18) };
+        R.adjacencies = new Edge[]{ new Edge(P, 15) };
+        Z.adjacencies = new Edge[]{ new Edge(P, 18) };
+        
+        dij.computePaths(A);
+        //System.out.println("Distance to " + Z + ": " + Z.minDistance);
+        List<Vertex> path = dij.getShortestPathTo(Z);
+        //System.out.println("Path: " + path);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -217,4 +302,4 @@ class PassVerifier extends InputVerifier {
              return true;
           }
     }
- }
+}

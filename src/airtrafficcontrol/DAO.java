@@ -13,9 +13,16 @@ import java.sql.Statement;
 import java.util.Arrays;
 
 /**
- *
+ * Database Access Object - DAO
  * @author hashan
  */
 public class DAO {
-    //
+//    public void getConnection() {
+//        try {
+//            // Database Cnnection
+//            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/air_traffic_control","air_traffic", "123456");
+//        } catch(SQLException ex){
+//            System.out.println("SQL Error "+ ex.getMessage());
+//        }
+//    }
 }
