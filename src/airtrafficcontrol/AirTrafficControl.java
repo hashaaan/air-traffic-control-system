@@ -27,14 +27,13 @@ public class AirTrafficControl {
      */
     public static void main(String[] args) {
         
-        FindRouteUI fr = new FindRouteUI();
+        //FindRouteUI fr = new FindRouteUI();
+        MainAppContainer mainApp = new MainAppContainer();
         
-        
-        
-        fr.setDefaultCloseOperation(FindPathFrame.EXIT_ON_CLOSE);
-        fr.setResizable(false);
-        fr.setLocationRelativeTo(null);
-        fr.setVisible(true);
+        mainApp.setDefaultCloseOperation(FindPathFrame.EXIT_ON_CLOSE);
+        mainApp.setResizable(false);
+        mainApp.setLocationRelativeTo(null);
+        mainApp.setVisible(true);
         
         
         // AirTrafficControl atc = new AirTrafficControl();
