@@ -1,5 +1,6 @@
 # air-traffic-control-system
-PDSA Assignment
+
+PDSA Group Assignment to find the shortest path between two airports. We have used Dijkstra's algorithm to find shortest path in this project
 
 ## Contributors
 
