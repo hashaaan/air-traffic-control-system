@@ -14,14 +14,25 @@ import java.util.Collections;
  *
  * @author hashan
  */
-
 class Vertex implements Comparable<Vertex> {
+
     public final String name;
+    public final String title;
+    public final String country;
     public Edge[] adjacencies;
     public double minDistance = Double.POSITIVE_INFINITY;
     public Vertex previous;
-    public Vertex(String argName) { name = argName; }
-    public String toString() { return name; }
+
+    public Vertex(String argName, String argTitle, String argCountry) {
+        name = argName;
+        title = argTitle;
+        country = argCountry;
+    }
+
+    public String toString() {
+        return name;
+    }
+
     public int compareTo(Vertex other) {
         return Double.compare(minDistance, other.minDistance);
     }
@@ -29,14 +40,18 @@ class Vertex implements Comparable<Vertex> {
 }
 
 class Edge {
+
     public final Vertex target;
     public final double weight;
-    public Edge(Vertex argTarget, double argWeight)
-    { target = argTarget; weight = argWeight; }
+
+    public Edge(Vertex argTarget, double argWeight) {
+        target = argTarget;
+        weight = argWeight;
+    }
 }
 
 public class Dijkstra {
-    
+
     public static void computePaths(Vertex source) {
         source.minDistance = 0.;
         PriorityQueue<Vertex> vertexQueue = new PriorityQueue<Vertex>();
@@ -53,7 +68,7 @@ public class Dijkstra {
                 if (distanceThroughU < v.minDistance) {
                     vertexQueue.remove(v);
 
-                    v.minDistance = distanceThroughU ;
+                    v.minDistance = distanceThroughU;
                     v.previous = u;
                     vertexQueue.add(v);
                 }
@@ -63,15 +78,16 @@ public class Dijkstra {
 
     public static List<Vertex> getShortestPathTo(Vertex target) {
         List<Vertex> path = new ArrayList<Vertex>();
-        for (Vertex vertex = target; vertex != null; vertex = vertex.previous)
+        for (Vertex vertex = target; vertex != null; vertex = vertex.previous) {
             path.add(vertex);
+        }
 
         Collections.reverse(path);
         return path;
     }
 
 //    public static void main(String[] args) {
-        // mark all the vertices 
+    // mark all the vertices 
 //        Vertex A = new Vertex("A");
 //        Vertex B = new Vertex("B");
 //        Vertex D = new Vertex("D");
@@ -83,8 +99,7 @@ public class Dijkstra {
 //        Vertex P = new Vertex("P");
 //        Vertex R = new Vertex("R");
 //        Vertex Z = new Vertex("Z");
-
-        // set the edges and weight
+    // set the edges and weight
 //        A.adjacencies = new Edge[]{ new Edge(M, 8) };
 //        B.adjacencies = new Edge[]{ new Edge(D, 11) };
 //        D.adjacencies = new Edge[]{ new Edge(B, 11) };
@@ -96,8 +111,6 @@ public class Dijkstra {
 //        P.adjacencies = new Edge[]{ new Edge(Z, 18) };
 //        R.adjacencies = new Edge[]{ new Edge(P, 15) };
 //        Z.adjacencies = new Edge[]{ new Edge(P, 18) };
-
-
 //        computePaths(A); // run Dijkstra
 //        System.out.println("Distance to " + Z + ": " + Z.minDistance);
 //        List<Vertex> path = getShortestPathTo(Z);
