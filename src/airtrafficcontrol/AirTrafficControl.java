@@ -27,7 +27,6 @@ public class AirTrafficControl {
      */
     public static void main(String[] args) {
         
-        //FindRouteUI fr = new FindRouteUI();
         MainAppContainer mainApp = new MainAppContainer();
         
         mainApp.setDefaultCloseOperation(FindPathFrame.EXIT_ON_CLOSE);

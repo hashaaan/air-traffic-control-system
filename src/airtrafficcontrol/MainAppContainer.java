@@ -17,6 +17,7 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -31,10 +32,11 @@ public class MainAppContainer extends javax.swing.JFrame {
      */
     public MainAppContainer() {
         initComponents();
+        this.getContentPane().remove(AirportsUI);
         //txtFrom.setInputVerifier(new PassVerifier());
         //txtTo.setInputVerifier(new PassVerifier());
         loadDataPQ();
-        this.getContentPane().remove(AirportsUI);
+        loadAirportsTable();
     }
 
     /**
@@ -63,6 +65,8 @@ public class MainAppContainer extends javax.swing.JFrame {
         AirportsUI = new javax.swing.JPanel();
         mainTitle1 = new javax.swing.JLabel();
         btnFindRoutesUI = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblAirports = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(754, 508));
@@ -94,7 +98,7 @@ public class MainAppContainer extends javax.swing.JFrame {
 
         txtTo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtTo.setForeground(new java.awt.Color(19, 11, 11));
-        txtTo.setToolTipText("");
+        txtTo.setToolTipText("To");
         txtTo.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         txtTo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,20 +130,16 @@ public class MainAppContainer extends javax.swing.JFrame {
         FindRouteUI.setLayout(FindRouteUILayout);
         FindRouteUILayout.setHorizontalGroup(
             FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FindRouteUILayout.createSequentialGroup()
+                .addGap(133, 133, 133)
+                .addComponent(mainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FindRouteUILayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(87, Short.MAX_VALUE)
                 .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FindRouteUILayout.createSequentialGroup()
                         .addComponent(btnAirportsUI)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FindRouteUILayout.createSequentialGroup()
-                        .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(203, 203, 203))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FindRouteUILayout.createSequentialGroup()
-                        .addComponent(errorFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(136, 136, 136)
-                        .addComponent(errorTo, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(79, 79, 79))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FindRouteUILayout.createSequentialGroup()
                         .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -148,38 +148,46 @@ public class MainAppContainer extends javax.swing.JFrame {
                         .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelSR, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelMinDur, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(118, 118, 118))))
-            .addGroup(FindRouteUILayout.createSequentialGroup()
-                .addGap(133, 133, 133)
-                .addComponent(mainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(122, Short.MAX_VALUE))
-            .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(FindRouteUILayout.createSequentialGroup()
-                    .addGap(79, 79, 79)
-                    .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(txtFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(48, 48, 48)
-                    .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(56, Short.MAX_VALUE)))
+                        .addGap(133, 133, 133))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FindRouteUILayout.createSequentialGroup()
+                        .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(219, 219, 219))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FindRouteUILayout.createSequentialGroup()
+                        .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(FindRouteUILayout.createSequentialGroup()
+                                .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(41, 41, 41)
+                                .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(FindRouteUILayout.createSequentialGroup()
+                                .addComponent(errorFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(128, 128, 128)
+                                .addComponent(errorTo, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(73, 73, 73))))
         );
         FindRouteUILayout.setVerticalGroup(
             FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FindRouteUILayout.createSequentialGroup()
-                .addGap(7, 7, 7)
+                .addContainerGap()
                 .addComponent(btnAirportsUI)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(FindRouteUILayout.createSequentialGroup()
-                        .addComponent(mainTitle)
-                        .addGap(57, 57, 57)
-                        .addComponent(errorTo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addComponent(mainTitle)
+                .addGap(36, 36, 36)
+                .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(errorTo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(errorFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addGap(51, 51, 51)
                 .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addGap(67, 67, 67)
                 .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelMinDur, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -187,16 +195,7 @@ public class MainAppContainer extends javax.swing.JFrame {
                 .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelSR, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(112, 112, 112))
-            .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(FindRouteUILayout.createSequentialGroup()
-                    .addGap(106, 106, 106)
-                    .addGroup(FindRouteUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(373, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         mainTitle1.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
@@ -210,18 +209,47 @@ public class MainAppContainer extends javax.swing.JFrame {
             }
         });
 
+        tblAirports.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Airport Code", "Title", "Country"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblAirports);
+        if (tblAirports.getColumnModel().getColumnCount() > 0) {
+            tblAirports.getColumnModel().getColumn(0).setPreferredWidth(2);
+            tblAirports.getColumnModel().getColumn(2).setPreferredWidth(2);
+        }
+
         javax.swing.GroupLayout AirportsUILayout = new javax.swing.GroupLayout(AirportsUI);
         AirportsUI.setLayout(AirportsUILayout);
         AirportsUILayout.setHorizontalGroup(
             AirportsUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AirportsUILayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnFindRoutesUI)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AirportsUILayout.createSequentialGroup()
-                .addContainerGap(172, Short.MAX_VALUE)
-                .addComponent(mainTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(144, 144, 144))
+                .addGroup(AirportsUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(AirportsUILayout.createSequentialGroup()
+                        .addComponent(btnFindRoutesUI)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AirportsUILayout.createSequentialGroup()
+                        .addGap(0, 43, Short.MAX_VALUE)
+                        .addGroup(AirportsUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AirportsUILayout.createSequentialGroup()
+                                .addComponent(mainTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(144, 144, 144))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AirportsUILayout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37))))))
         );
         AirportsUILayout.setVerticalGroup(
             AirportsUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +258,9 @@ public class MainAppContainer extends javax.swing.JFrame {
                 .addComponent(btnFindRoutesUI)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(mainTitle1)
-                .addContainerGap(416, Short.MAX_VALUE))
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -289,9 +319,11 @@ public class MainAppContainer extends javax.swing.JFrame {
                             // Console Output
                             System.out.println("Distance to " + airportDest.name + ": " + minDistance);
                             System.out.println("Path: " + path + "\n");
+                            
+                            String hoursMins = getHoursMins(minDistance);
 
                             // UI Output
-                            labelMinDur.setText(Double.toString(minDistance) + " hrs");
+                            labelMinDur.setText(hoursMins);
                             labelSR.setText(path.toString());
                         }
                     }
@@ -385,6 +417,17 @@ public class MainAppContainer extends javax.swing.JFrame {
             System.out.println(airport);
         }
     }
+    
+    private String getHoursMins(double mins) {
+        int t = (int)mins;
+        int hours = t / 60;
+        int minutes = t % 60;
+        
+        System.out.printf("%d:%02d", hours, minutes);
+        System.out.println();
+        
+        return hours+" hrs "+minutes+" mins";
+    }
 
     private void setEdgesAndWeight(String src, String dest, double duration) {
         System.out.println("src: " + src + " dest: " + dest + " dur: " + duration);
@@ -404,7 +447,6 @@ public class MainAppContainer extends javax.swing.JFrame {
     private void loadDataPQ() {
         System.out.println("\n===========initialize==========\n");
         int count = 0;
-        // Dijkstra dij = new Dijkstra();
         // Database Connection
         try {
 
@@ -425,7 +467,9 @@ public class MainAppContainer extends javax.swing.JFrame {
             while (rst.previous()) {
                 count--;
                 String akey = rst.getString("akey");
-                airports[count] = new Vertex(akey);
+                String title = rst.getString("title");
+                String country = rst.getString("country");
+                airports[count] = new Vertex(akey, title, country);
             }
 
             //Get flight time data from database
@@ -447,39 +491,45 @@ public class MainAppContainer extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.out.println("SQL Error " + ex.getMessage());
         }
+        
+        Dijkstra dij = new Dijkstra();
 
         // mark all the vertices
-        //Vertex A = new Vertex("A");
-        //Vertex B = new Vertex("B");
-        //Vertex D = new Vertex("D");
-        //Vertex F = new Vertex("F");
-        //Vertex K = new Vertex("K");
-        //Vertex J = new Vertex("J");
-        //Vertex M = new Vertex("M");
-        //Vertex O = new Vertex("O");
-        //Vertex P = new Vertex("P");
-        //Vertex R = new Vertex("R");
-        //Vertex Z = new Vertex("Z");
+        Vertex A = new Vertex("A", "", "");
+        Vertex B = new Vertex("B", "", "");
+        Vertex D = new Vertex("D", "", "");
+        Vertex F = new Vertex("F", "", "");
+        Vertex K = new Vertex("K", "", "");
+        Vertex J = new Vertex("J", "", "");
+        Vertex M = new Vertex("M", "", "");
+        Vertex O = new Vertex("O", "", "");
+        Vertex P = new Vertex("P", "", "");
+        Vertex R = new Vertex("R", "", "");
+        Vertex Z = new Vertex("Z", "", "");
         // set the edges and weight
-        //A.adjacencies = new Edge[]{ new Edge(M, 8) };
-        //B.adjacencies = new Edge[]{ new Edge(D, 11) };
-        //D.adjacencies = new Edge[]{ new Edge(B, 11) };
-        //F.adjacencies = new Edge[]{ new Edge(K, 23) };
-        //K.adjacencies = new Edge[]{ new Edge(O, 40) };
-        //J.adjacencies = new Edge[]{ new Edge(K, 25) };
-        //M.adjacencies = new Edge[]{ new Edge(R, 8) };
-        //O.adjacencies = new Edge[]{ new Edge(K, 40) };
-        //P.adjacencies = new Edge[]{ new Edge(Z, 18) };
-        //R.adjacencies = new Edge[]{ new Edge(P, 15) };
-        //Z.adjacencies = new Edge[]{ new Edge(P, 18) };
-        //dij.computePaths(A);
-        //System.out.println("Distance to " + Z + ": " + Z.minDistance);
-        //List<Vertex> path = dij.getShortestPathTo(Z);
-        //System.out.println("Path: " + path);
-        /* dij.computePaths(airports[0]);
-        System.out.println("Distance to " + airports[1].name + ": " + airports[1].minDistance);
-        List<Vertex> path = dij.getShortestPathTo(airports[1]);
-        System.out.println("Path: " + path);*/
+        A.adjacencies = new Edge[]{ new Edge(M, 8) };
+        B.adjacencies = new Edge[]{ new Edge(D, 11) };
+        D.adjacencies = new Edge[]{ new Edge(B, 11) };
+        F.adjacencies = new Edge[]{ new Edge(K, 23) };
+        K.adjacencies = new Edge[]{ new Edge(O, 40) };
+        J.adjacencies = new Edge[]{ new Edge(K, 25) };
+        M.adjacencies = new Edge[]{ new Edge(R, 8) };
+        O.adjacencies = new Edge[]{ new Edge(K, 40) };
+        P.adjacencies = new Edge[]{ new Edge(Z, 18) };
+        R.adjacencies = new Edge[]{ new Edge(P, 15) };
+        Z.adjacencies = new Edge[]{ new Edge(P, 18) };
+        dij.computePaths(R);
+        System.out.println("Distance to " + Z  + ": " + Z.minDistance);
+        List<Vertex> path = dij.getShortestPathTo(Z);
+        System.out.println("Path: " + path);
+    }
+    
+    private void loadAirportsTable() {
+        DefaultTableModel model = (DefaultTableModel) tblAirports.getModel();
+        
+        for (Vertex airport : airports) {
+            model.addRow(new Object[]{airport.name, airport.title, airport.country});
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -492,12 +542,14 @@ public class MainAppContainer extends javax.swing.JFrame {
     private javax.swing.JLabel errorTo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelFrom;
     private javax.swing.JLabel labelMinDur;
     private javax.swing.JLabel labelSR;
     private javax.swing.JLabel labelTo;
     private javax.swing.JLabel mainTitle;
     private javax.swing.JLabel mainTitle1;
+    private javax.swing.JTable tblAirports;
     private javax.swing.JTextField txtFrom;
     private javax.swing.JTextField txtTo;
     // End of variables declaration//GEN-END:variables
