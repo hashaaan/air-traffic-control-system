@@ -84,12 +84,12 @@ public class FindRouteFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField1);
-        jTextField1.setBounds(90, 190, 270, 27);
+        jTextField1.setBounds(90, 190, 270, 23);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
         jLabel1.setText("Find The Route");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(260, 80, 320, 43);
+        jLabel1.setBounds(260, 80, 320, 44);
 
         jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTextField2.setForeground(new java.awt.Color(204, 204, 204));
@@ -101,7 +101,7 @@ public class FindRouteFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField2);
-        jTextField2.setBounds(460, 190, 260, 27);
+        jTextField2.setBounds(460, 190, 260, 23);
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jButton1.setText("Find Route");
@@ -113,22 +113,22 @@ public class FindRouteFrame extends javax.swing.JFrame {
         getContentPane().add(jLabel3);
         jLabel3.setBounds(90, 250, 170, 40);
         getContentPane().add(jYearChooser2);
-        jYearChooser2.setBounds(100, 300, 60, 27);
+        jYearChooser2.setBounds(100, 300, 60, 20);
         getContentPane().add(jMonthChooser2);
-        jMonthChooser2.setBounds(170, 300, 134, 27);
+        jMonthChooser2.setBounds(170, 300, 98, 20);
         getContentPane().add(jSpinField2);
-        jSpinField2.setBounds(310, 300, 50, 27);
+        jSpinField2.setBounds(310, 300, 50, 20);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setText("Arrival date");
         getContentPane().add(jLabel5);
         jLabel5.setBounds(460, 250, 140, 40);
         getContentPane().add(jYearChooser1);
-        jYearChooser1.setBounds(460, 300, 60, 27);
+        jYearChooser1.setBounds(460, 300, 60, 20);
         getContentPane().add(jMonthChooser1);
-        jMonthChooser1.setBounds(530, 300, 134, 27);
+        jMonthChooser1.setBounds(530, 300, 98, 20);
         getContentPane().add(jSpinField1);
-        jSpinField1.setBounds(670, 300, 50, 27);
+        jSpinField1.setBounds(670, 300, 50, 20);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

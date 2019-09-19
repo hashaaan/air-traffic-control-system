@@ -17,6 +17,8 @@ public class FindPathFrame extends javax.swing.JFrame {
     public FindPathFrame() {
         initComponents();
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,7 +53,7 @@ public class FindPathFrame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
         jLabel1.setText("Find The Path");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(290, 80, 289, 43);
+        jLabel1.setBounds(290, 80, 289, 44);
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(204, 204, 204));
@@ -63,7 +65,7 @@ public class FindPathFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField1);
-        jTextField1.setBounds(460, 200, 270, 27);
+        jTextField1.setBounds(460, 200, 270, 23);
 
         jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTextField2.setForeground(new java.awt.Color(204, 204, 204));
@@ -75,18 +77,18 @@ public class FindPathFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField2);
-        jTextField2.setBounds(60, 200, 270, 27);
+        jTextField2.setBounds(60, 200, 270, 23);
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jButton1.setText("Find Path");
         getContentPane().add(jButton1);
         jButton1.setBounds(240, 410, 350, 50);
         getContentPane().add(jSpinField1);
-        jSpinField1.setBounds(660, 300, 50, 27);
+        jSpinField1.setBounds(660, 300, 50, 20);
         getContentPane().add(jYearChooser1);
-        jYearChooser1.setBounds(460, 300, 60, 27);
+        jYearChooser1.setBounds(460, 300, 60, 20);
         getContentPane().add(jMonthChooser1);
-        jMonthChooser1.setBounds(520, 300, 134, 27);
+        jMonthChooser1.setBounds(520, 300, 98, 20);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setText("Departure date");
@@ -98,11 +100,11 @@ public class FindPathFrame extends javax.swing.JFrame {
         getContentPane().add(jLabel5);
         jLabel5.setBounds(460, 250, 140, 40);
         getContentPane().add(jYearChooser2);
-        jYearChooser2.setBounds(60, 310, 70, 27);
+        jYearChooser2.setBounds(60, 310, 70, 20);
         getContentPane().add(jMonthChooser2);
-        jMonthChooser2.setBounds(140, 310, 134, 27);
+        jMonthChooser2.setBounds(140, 310, 98, 20);
         getContentPane().add(jSpinField2);
-        jSpinField2.setBounds(280, 310, 50, 27);
+        jSpinField2.setBounds(280, 310, 50, 20);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
