@@ -3,4 +3,5 @@ PDSA Assignment
 
 ## Contributors
 
-[![React Native Elements Backer](https://avatars1.githubusercontent.com/u/30007068?s=400&v=4)](https://github.com/tmjayalath)
+[![Contributor](https://avatars3.githubusercontent.com/u/22878500?s=40&v=4](https://github.com/juniorZed)
+[![contributor](https://avatars1.githubusercontent.com/u/30007068?s=40&v=4)](https://github.com/tmjayalath)
