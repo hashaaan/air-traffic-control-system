@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +21,7 @@ import java.util.logging.Logger;
 public class AirTrafficControl {
     
     String[] codes = new String[1]; //to airport identifications
+    String[][] airports = new String[2][2];
     double[][] FTimes = new double[1][]; //to Flight Times
     double[][] solution = new double[3][3];
     
@@ -34,7 +34,7 @@ public class AirTrafficControl {
         FindRouteUI fr = new FindRouteUI(mainData);
         
         mainData.loadData();
-        
+        mainData.calc("CMB","LHR");
         fr.setVisible(true);
         
         try {
@@ -42,9 +42,18 @@ public class AirTrafficControl {
         } catch (InterruptedException ex) {
             Logger.getLogger(AirTrafficControl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println();
+        mainData.display();
         
-        System.out.println(mainData.codes[1]);
+//        mainData.insertAirport("HK", "Hong Kong International", "Hong Kong");
+//        
+//        mainData.display();
         
+//        mainData.deleteAirport("HK");
+//        mainData.display();
+        
+        mainData.updateAirport("MBN", "MBN","Male", "Maildives");
+        mainData.display();
         // AirTrafficControl atc = new AirTrafficControl();
         
         /*atc.loadData();
@@ -65,16 +74,9 @@ public class AirTrafficControl {
     
     void loadData() {       
         try {
-            // Database Connection
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/center","root", "Tmj.123");
+            Database db = new Database();
             
-            // Load airport data from database
-            String sql = "select * from airports order by akey";
-            Statement st = con.createStatement();
-            ResultSet rst = st.executeQuery(sql);
-            
-            // String[] codes;//to airport identifications
-            // double[][] FTimes;//to Flight Times
+            ResultSet rst = db.getAirports();
             
             // getting rw count
             int count=0;
@@ -82,20 +84,23 @@ public class AirTrafficControl {
                count++;
             }
             
-            
             codes = new String[count]; //initaiaze
+            airports = new String[2][count];
             
             //Load airport identifications to array
             while(rst.previous()) {
                 count--;
-                codes[count] = rst.getString("akey");      
+                codes[count] = rst.getString("akey");
+                airports[0][count] = rst.getString("title");
+                airports[1][count] = rst.getString("country");
             }
             
             FTimes = new double[codes.length][codes.length];
             
             //Get flight time data from database
-            sql = "select * from times order by source";
-            rst = st.executeQuery(sql);
+//            sql = "select * from times order by source";
+//            rst = st.executeQuery(sql);
+            rst = db.getFTimes();
             
             //load Flighttime data to array
             while(rst.next()) {
@@ -119,8 +124,9 @@ public class AirTrafficControl {
         return 0;
     }
     
-    void insertAirport(String newCode) {
+    void insertAirport(String newCode, String newTitle, String newCountry) {
         String[] temp = new String[codes.length+1];
+        String[][] airTemp = new String[2][codes.length+1];
         double[][] tempF = new double[temp.length][temp.length];
         
         /* for(int i=0;i<codes.length;i++) {
@@ -141,7 +147,21 @@ public class AirTrafficControl {
         // ( arr, key ) | to get the arr index
         int addedIndex = Arrays.binarySearch(temp,newCode);
         
-        //System.out.println(addedIndex);
+        for(int i=0,j=0;i<temp.length;i++)
+        {
+            if(i==addedIndex)
+            {
+                airTemp[0][i] = newTitle;
+                airTemp[1][i] = newCountry;
+            }
+            else{
+                airTemp[0][i] = airports[0][j];
+                airTemp[1][i] = airports[1][j];
+                j++;
+            }
+        }
+        
+        airports = airTemp;
         
         for(int i=0, k=0; i<temp.length; i++) {
             for(int j=0, l=0; j<temp.length; j++) {
@@ -158,16 +178,31 @@ public class AirTrafficControl {
         }
         
         FTimes = tempF;
+        Database db = new Database();
+        db.insertAirport(newCode, newTitle, newCountry);
     }
     
     void deleteAirport(String deleteValue) {
         int deleteIndex = Arrays.binarySearch(codes,deleteValue);
         
         String[] temp = new String[codes.length-1];
+        String[][] airTemp = new String[2][temp.length];
         double[][] tempF = new double[temp.length][temp.length];
         
         System.arraycopy(codes, 0, temp, 0, deleteIndex);
         System.arraycopy(codes,deleteIndex+1, temp,deleteIndex, temp.length-deleteIndex);
+        
+        for(int i=0,j=0;i<codes.length;i++)
+        {
+            if(i!=deleteIndex)
+            {
+                airTemp[0][j] = airports[0][i];
+                airTemp[1][j] = airports[1][i];
+                j++;
+            }
+        }
+        
+        airports = airTemp;
         
         codes = temp;
         
@@ -185,17 +220,70 @@ public class AirTrafficControl {
             }
         }
         FTimes = tempF;  
+        
+        Database db = new Database();
+        db.deleteAirport(deleteValue);
         display(); 
     }
     
-    void display() {
+    int updateAirport(String oldAkey, String newAkey, String title, String country)
+    {
+        int index = Arrays.binarySearch(codes, oldAkey);
+        codes[index] = newAkey;
+        airports[0][index] = title;
+        airports[1][index] = country;
+        Database db = new Database();
+        return db.updateAirport(oldAkey, newAkey, title, country);
+    }
+    
+    int insertFlightTime(String source,String destination,double FTime)
+    {
+        int src = Arrays.binarySearch(codes,source);
+        int dest = Arrays.binarySearch(codes, destination);
+        FTimes[src][dest] = FTime;
+        Database db = new Database();
+        return db.insertFlightTime(source, destination, FTime);
+    }
+    
+    int updateFlightTime(String source,String destination,double FTime)
+    {
+        int src = Arrays.binarySearch(codes,source);
+        int dest = Arrays.binarySearch(codes, destination);
+        FTimes[src][dest] = FTime;
+        Database db = new Database();
+        return db.updateFlightTime(source, destination, FTime);
+    }
+    
+    void display() 
+    {    
         System.out.print("\t");
         for (String code : codes) {
             System.out.print(code+"\t");
         }
+        System.out.println();
+        for(int i=0; i<2;i++) {
+            for(int j=0;j<codes.length;j++) {
+                if(j==0) {
+                    if(i==0)
+                    {
+                        System.out.print("Title"+"\t\t");
+                    }
+                    else
+                    {
+                        System.out.print("Country"+"\t\t");
+                    }
+                }
+                System.out.print(airports[i][j]+"\t\t");
+            }
+            System.out.println();
+        }
         
         System.out.println();
-        
+        System.out.print("\t");
+        for (String code : codes) {
+            System.out.print(code+"\t");
+        }
+        System.out.println();
         for(int i=0; i<codes.length;i++) {
             for(int j=0;j<codes.length;j++) {
                 if(j==0) {
@@ -208,7 +296,12 @@ public class AirTrafficControl {
     }
     
     //Dijksras logic
-     void calc()
+//    This 
+//            Part 
+//            Implements 
+//                    Dijkstra's algorithm
+                            
+     void calc(String source, String destination)
     {
         int Nodecount = codes.length; 
         for(int i=0;i<Nodecount;i++)
@@ -226,17 +319,15 @@ public class AirTrafficControl {
             System.out.println();
         }
         
-        System.out.println("Enter Starting Node");
-        String  key = sc.next();
-        int start = search(codes,key);
-        int[][] solution = new int[3][Nodecount];
+        int start = Arrays.binarySearch(codes, source);
+        
         for(int i=0;i<Nodecount;i++)
         {
             solution[1][i] = -1;
         }
         solution[1][start] = 0;
         solution[2][start] = 99;
-        solve(Nodecount, start, solution);
+        solve(Nodecount, start);
         for(int i = 0; i<3; i++)
         {  
             for(int j = 0; j<Nodecount; j++)
@@ -246,9 +337,7 @@ public class AirTrafficControl {
             System.out.println();
         }
         int dest ;
-        System.out.println("Enter Destination");
-        key = sc.next();
-        dest = search(codes, key);
+        dest = Arrays.binarySearch(codes, destination);
         System.out.println("distance : " + solution[1][dest]);
         System.out.print("Path : ");
         
@@ -256,13 +345,13 @@ public class AirTrafficControl {
     
    
     
-    void solve(int size,int start,int[][] solution)
+    void solve(int size,int start)
     {
         add(size, start);
         start = NodeN(size);
         if(start != -99)
         {
-            solve(size, start, solution);
+            solve(size, start);
         }
     }
     
@@ -319,17 +408,17 @@ public class AirTrafficControl {
         return minlocation;
     }
     
-    int search(String[] array,String key)
-    {
-        for(int i=0;i<array.length;i++)
-        {
-            
-            if(array[i].equals(key))
-            {
-                return i;
-            }
-        }
-        return 0;
-    }
+//    int search(String[] array,String key)
+//    {
+//        for(int i=0;i<array.length;i++)
+//        {
+//            
+//            if(array[i].equals(key))
+//            {
+//                return i;
+//            }
+//        }
+//        return 0;
+//    }
     
 }
