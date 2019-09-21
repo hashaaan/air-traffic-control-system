@@ -36,48 +36,12 @@ public class AirTrafficControl {
     public static void main(String[] args) {
         AirTrafficControl mainData = new AirTrafficControl();
         mainData.loadData();
-//        FindRouteUI fr = new FindRouteUI(mainData);
         
-        
-//        mainData.calc("AKL","DOH");
-//        fr.setVisible(true);
-//        mainData.printPath(mainData.solution, mainData.codes, Arrays.binarySearch(mainData.codes,"DOH"));
-         FindRoutesUI frs = new FindRoutesUI(mainData);
-         frs.setVisible(true);
-        //mainData.printPath(mainData.solution, mainData.codes, Arrays.binarySearch(mainData.codes,"AKL"));
-//        try {
-//            sleep(5000);
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(AirTrafficControl.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        System.out.println();
-//        mainData.display();
-        
-//        mainData.insertAirport("HK", "Hong Kong International", "Hong Kong");
-//        
-//        mainData.display();
-        
-//        mainData.deleteAirport("HK");
-//        mainData.display();
-//        
-//        mainData.updateAirport("MBN", "MBN","Male", "Maildives");
-//        mainData.display();
-        // AirTrafficControl atc = new AirTrafficControl();
-        
-        /*atc.loadData();
-        
-        atc.insertAirport("DTH");
-        atc.insertAirport("KLM");
-        
-        atc.display();
-        
-        atc.deleteAirport("DTH");
-        atc.insertAirport("THJ");
-        atc.insertAirport("VGH");
-        
-        atc.display();
-        
-        atc.deleteAirport("CMB");*/
+        MainAppUI mainapp = new MainAppUI(mainData);
+        mainapp.setDefaultCloseOperation(MainAppUI.EXIT_ON_CLOSE);
+        mainapp.setResizable(false);
+        mainapp.setLocationRelativeTo(null);
+        mainapp.setVisible(true);
     }
     
     void loadData() {       

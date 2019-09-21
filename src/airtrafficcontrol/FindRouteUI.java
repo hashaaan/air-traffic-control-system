@@ -111,7 +111,6 @@ public class FindRouteUI extends javax.swing.JFrame {
         errFrom = new javax.swing.JLabel();
         cmbDestination = new javax.swing.JComboBox();
         cmbSource = new javax.swing.JComboBox();
-        txtTest = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblAirports = new javax.swing.JTable();
 
@@ -130,14 +129,20 @@ public class FindRouteUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(" Air Traffic Control System");
+        setMinimumSize(new java.awt.Dimension(755, 598));
+        setPreferredSize(new java.awt.Dimension(755, 598));
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         mainTitle.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
         mainTitle.setText("Find The Shortest Route");
+        getContentPane().add(mainTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(96, 40, -1, -1));
 
         labelFrom.setText("From Where");
+        getContentPane().add(labelFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 143, 91, 27));
 
         labelTo.setText("To Where");
+        getContentPane().add(labelTo, new org.netbeans.lib.awtextra.AbsoluteConstraints(375, 143, 81, 27));
 
         btnFind.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         btnFind.setText("Find");
@@ -146,12 +151,14 @@ public class FindRouteUI extends javax.swing.JFrame {
                 btnFindActionPerformed(evt);
             }
         });
+        getContentPane().add(btnFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, 280, 49));
+        getContentPane().add(errFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 177, 173, 20));
 
         cmbDestination.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(cmbDestination, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 141, 208, 30));
 
         cmbSource.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        txtTest.setText("jTextField1");
+        getContentPane().add(cmbSource, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 143, 203, -1));
 
         tblAirports.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,63 +173,7 @@ public class FindRouteUI extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblAirports);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(57, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(mainTitle)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(errFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(42, 42, 42))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(cmbSource, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                                .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(292, 292, 292))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(300, 300, 300)
-                                .addComponent(cmbDestination, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(mainTitle)
-                .addGap(58, 58, 58)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbSource)
-                    .addComponent(cmbDestination, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(errFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(txtTest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
-        );
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 290, 590, 250));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -230,9 +181,7 @@ public class FindRouteUI extends javax.swing.JFrame {
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
         // TODO add your handling code here:
         String destination = ((ComboItem)(cmbDestination.getSelectedItem())).getValue();
-        txtTest.setText(destination);
         String source = ((ComboItem)(cmbSource.getSelectedItem())).getValue();
-        txtTest.setText(source);
         mainData.calc(source, destination);
         int dest = mainData.codeSearch(mainData.codes,destination);
         System.out.println(dest);
@@ -342,7 +291,6 @@ public class FindRouteUI extends javax.swing.JFrame {
     private javax.swing.JLabel labelTo;
     private javax.swing.JLabel mainTitle;
     private javax.swing.JTable tblAirports;
-    private javax.swing.JTextField txtTest;
     // End of variables declaration//GEN-END:variables
 }
 
