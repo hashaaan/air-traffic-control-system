@@ -36,14 +36,14 @@ public class AirTrafficControl {
     public static void main(String[] args) {
         AirTrafficControl mainData = new AirTrafficControl();
         mainData.loadData();
-        FindRouteUI fr = new FindRouteUI(mainData);
+//        FindRouteUI fr = new FindRouteUI(mainData);
         
         
 //        mainData.calc("AKL","DOH");
-        fr.setVisible(true);
+//        fr.setVisible(true);
 //        mainData.printPath(mainData.solution, mainData.codes, Arrays.binarySearch(mainData.codes,"DOH"));
-        // FindRoutesUI frs = new FindRoutesUI(mainData);
-        // frs.setVisible(true);
+         FindRoutesUI frs = new FindRoutesUI(mainData);
+         frs.setVisible(true);
         //mainData.printPath(mainData.solution, mainData.codes, Arrays.binarySearch(mainData.codes,"AKL"));
 //        try {
 //            sleep(5000);
