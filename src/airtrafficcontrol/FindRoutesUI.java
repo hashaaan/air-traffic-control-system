@@ -167,6 +167,30 @@ public class FindRoutesUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        int count = tblAdded.getRowCount();
+        String[] codes = new String[count];
+        DefaultTableModel model = (DefaultTableModel) tblAdded.getModel();
+        for(int i=0;i<count;i++)
+        {
+            String acode = model.getValueAt(i, 0).toString();
+            codes[i]=acode;
+        }
+        mainData.getSelectedAirports(codes);
+        mainData.MASSolve();
+        mainData.printPaths(model, mainData.MASSolution, 0);
+        model = (DefaultTableModel) tblRoutes.getModel();
+        for(int i=0;i<count-1;i++)
+        {
+            
+           double x = mainData.MASSolution[0][i];
+           
+           
+           int y = (int)x;
+           int v = (int)mainData.MASSolution[1][i];
+           model.addRow(new Object[]{mainData.MAScodes[y].toString(),mainData.MAScodes[v].toString()});
+           
+           
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed

@@ -480,6 +480,12 @@ public class AirTrafficControl {
         MAScodes = selectedAs;
         MASTimes = selectedFtimes;
         MASSolution = new double[3][selectedAs.length];
+        for(int i=0;i<selectedAs.length;i++)
+        {
+            MASSolution[0][i] = -1;
+            MASSolution[1][i] = -1;
+            MASSolution[2][i] = -1;
+        }
     }
     
     void addMAS(int count)
@@ -493,7 +499,7 @@ public class AirTrafficControl {
             int index = codeSearch(MAScodes,itr.next().toString());
             for(int i=0;i<MAScodes.length;i++)
             {
-                if(MASTimes[index][i]==0)
+                if(MASTimes[index][i]==0||MASTimes[index][i]==-1)
                 {
                     
                 }
@@ -517,8 +523,12 @@ public class AirTrafficControl {
         MASSolution[0][count] = minlocation[0];
         MASSolution[1][count] = minlocation[1];
         MASSolution[2][count] = min;
+        for(int i=0;i<MAScodes.length;i++)
+        {
+            MASTimes[i][minlocation[1]] = -1;
+        }
         sol.add(MAScodes[minlocation[1]]);
-        if(count<MAScodes.length)
+        if(count<MAScodes.length-2)
         {
             addMAS(count+1);
         }
@@ -534,9 +544,16 @@ public class AirTrafficControl {
     } 
     void printPaths(DefaultTableModel model,double[][] solution,int start)
     {
-        if(solution[0][start]!=-1)
+//        if(solution[0][start]!=-1)
+//        {
+//            
+//        }
+        for(int i=0;i<MAScodes.length;i++)
         {
-            
+            System.out.println("sss"+solution[0][i]);
+            System.out.println("sss"+solution[1][i]);
+            System.out.println("sss"+solution[2][i]);
+            System.out.println();
         }
     }
     
