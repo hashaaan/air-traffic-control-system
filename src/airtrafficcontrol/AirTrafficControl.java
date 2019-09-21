@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -527,5 +528,14 @@ public class AirTrafficControl {
         {
             addMAS(i);
         }
-    }   
+    } 
+    void printPaths(DefaultTableModel model,double[][] solution,int start)
+    {
+        if(solution[0][start]!=-1)
+        {
+            
+        }
+    }
+    
+    
 }

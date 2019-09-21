@@ -229,9 +229,6 @@ public class FindRouteUI extends javax.swing.JFrame {
 
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
         // TODO add your handling code here:
-       
-       
-        mainData.codes[2] = "JK";
         String destination = ((ComboItem)(cmbDestination.getSelectedItem())).getValue();
         txtTest.setText(destination);
         String source = ((ComboItem)(cmbSource.getSelectedItem())).getValue();
