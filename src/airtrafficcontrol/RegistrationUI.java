@@ -9,12 +9,12 @@ package airtrafficcontrol;
  *
  * @author Nirmali
  */
-public class RegistrationFrame extends javax.swing.JFrame {
+public class RegistrationUI extends javax.swing.JFrame {
 
     /**
      * Creates new form RegistrationFrame
      */
-    public RegistrationFrame() {
+    public RegistrationUI() {
         initComponents();
     }
 
@@ -48,13 +48,15 @@ public class RegistrationFrame extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(766, 508));
+        setTitle("Registration");
+        setPreferredSize(new java.awt.Dimension(1000, 650));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 3, 48)); // NOI18N
         jLabel2.setText("Registration");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(340, 50, 340, 60);
+        jLabel2.setBounds(380, 50, 340, 60);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("First name");
@@ -141,7 +143,7 @@ public class RegistrationFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(460, 530, 78, 29);
+        jButton1.setBounds(460, 530, 140, 29);
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setText("Back");
@@ -151,7 +153,7 @@ public class RegistrationFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(180, 530, 49, 29);
+        jButton2.setBounds(180, 530, 100, 29);
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setText("Cancel");
@@ -161,7 +163,7 @@ public class RegistrationFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton3);
-        jButton3.setBounds(740, 530, 65, 29);
+        jButton3.setBounds(760, 530, 100, 29);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -211,20 +213,21 @@ public class RegistrationFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegistrationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrationUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegistrationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrationUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegistrationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrationUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegistrationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrationUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegistrationFrame().setVisible(true);
+                new RegistrationUI().setVisible(true);
             }
         });
     }
