@@ -8,33 +8,53 @@ package airtrafficcontrol;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
  * @author TMJ
  */
 public class Database {
-    Connection getConnection()
+    
+    Connection con;
+    
+    public Database()
+    {
+        getConnection();
+    }
+    final void getConnection()
     {   
-        Connection con = null;
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost/center","root", "Tmj.123");
         } catch (SQLException ex) {
             System.out.println("Connection Error : "+ex.getMessage());
         }
-        return con;
+    }
+    
+    ResultSet getAirports() throws SQLException
+    {    
+        String sql = "select * from airports order by akey";
+        Statement st = con.createStatement();
+        return st.executeQuery(sql);
+    }
+    
+    ResultSet getFTimes() throws SQLException
+    {
+        Statement st = con.createStatement();
+        String sql = "select * from times order by source";
+        return st.executeQuery(sql);
     }
     
     int insertAirport(String akey, String title, String country)
     {
         try {
-            Connection con = getConnection();
             String sql = "insert into airports (`akey`,`title`,`country`) values (?,?,?)";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(0,akey);
-            st.setString(1,title);
-            st.setString(2,country);
+            st.setString(1,akey);
+            st.setString(2,title);
+            st.setString(3,country);
             
             return st.executeUpdate();
         } catch (SQLException ex) {
@@ -46,10 +66,9 @@ public class Database {
     int deleteAirport(String akey)
     {
         try {
-            Connection con = getConnection();
             String sql = "delete from airports where `akey`=?";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(0,akey);
+            st.setString(1,akey);
             
             deleteAirportFlights(akey);
             
@@ -63,13 +82,12 @@ public class Database {
     int updateAirport(String oldAkey, String newAkey, String title, String country)
     {
         try {
-            Connection con = getConnection();
             String sql = "update airports set akey=?,title=?,country=? where `akey`=?";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(0,newAkey);
-            st.setString(1, title);
-            st.setString(2,country);
-            st.setString(3,oldAkey);
+            st.setString(1,newAkey);
+            st.setString(2, title);
+            st.setString(3,country);
+            st.setString(4,oldAkey);
             
             return st.executeUpdate();
         } catch (SQLException ex) {
@@ -81,12 +99,11 @@ public class Database {
     int insertFlightTime(String src, String dest, double ftime)
     {
         try {
-            Connection con = getConnection();
             String sql = "insert into times(`source`,`destination`,`flighttime`) values (?,?,?)";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(0,src);
-            st.setString(1, dest);
-            st.setDouble(2, ftime);
+            st.setString(1,src);
+            st.setString(2, dest);
+            st.setDouble(3, ftime);
             
             return st.executeUpdate();
         } catch (SQLException ex) {
@@ -98,11 +115,10 @@ public class Database {
     int deleteFlightTime(String src, String dest)
     {
         try {
-            Connection con = getConnection();
             String sql = "delete from times where `source`=? and `destination`=?";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(0,src);
-            st.setString(1,dest);
+            st.setString(1,src);
+            st.setString(2,dest);
             
             return st.executeUpdate();
         } catch (SQLException ex) {
@@ -114,12 +130,11 @@ public class Database {
     int updateFlightTime(String src, String dest, double newftime)
     {
         try {
-            Connection con = getConnection();
             String sql = "update times set `flighttime`=? where `source`=? and `destination`=?";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1,src);
-            st.setString(2, dest);
-            st.setDouble(0, newftime);
+            st.setString(2,src);
+            st.setString(3, dest);
+            st.setDouble(1, newftime);
             
             return st.executeUpdate();
         } catch (SQLException ex) {
@@ -131,11 +146,10 @@ public class Database {
     int deleteAirportFlights(String akey)
     {
          try {
-            Connection con = getConnection();
             String sql = "delete from times where `source`=? or `destination`=?";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setString(0,akey);
             st.setString(1,akey);
+            st.setString(2,akey);
             
             return st.executeUpdate();
         } catch (SQLException ex) {

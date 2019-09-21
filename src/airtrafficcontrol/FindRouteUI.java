@@ -25,18 +25,24 @@ import javax.swing.border.Border;
  */
 public class FindRouteUI extends javax.swing.JFrame {
     Vertex[] airports = new Vertex[1];
+    AirTrafficControl mainData;
 
     /**
      * Creates new form ControlPanel
      */
     public FindRouteUI() {
         initComponents();
-        txtFrom.setInputVerifier(new PassVerifier());
-        txtTo.setInputVerifier(new PassVerifier());
+//        txtFrom.setInputVerifier(new PassVerifier());
+//        txtTo.setInputVerifier(new PassVerifier());
         
-        loadDataPQ();
+//        loadDataPQ();
         //displayAirports();
     }
+    
+     public FindRouteUI(AirTrafficControl air) {
+          initComponents();
+         mainData = air;
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -141,8 +147,8 @@ public class FindRouteUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(errFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(178, Short.MAX_VALUE))
         );
@@ -160,28 +166,31 @@ public class FindRouteUI extends javax.swing.JFrame {
 
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
         // TODO add your handling code here:
-        String src = txtFrom.getText();
-        String dest = txtTo.getText();
+        txtFrom.setText(mainData.codes[0]);
+        mainData.codes[1] = "TEST";
+//        String src = txtFrom.getText();
+//        String dest = txtTo.getText();
+//        
+//        System.out.println("Find! ===> src: "+src+" dest: "+dest);
+//        
+//        Dijkstra dij = new Dijkstra();
+//        
+//        // find source airport
+//        for (Vertex airportSrc : airports) {
+//            if(airportSrc.name.equals(src)){
+//                dij.computePaths(airportSrc);
+//                // find destination airport
+//                for (Vertex airportDest : airports) {
+//                    if(airportDest.name.equals(dest)){
+//                        System.out.println("Distance to " + airportDest.name + ": " + airportDest.minDistance);
+//                        List<Vertex> path = dij.getShortestPathTo(airportDest);
+//                        System.out.println("Path: " +path+"\n");
+//                        
+//                    }
+//                }
+//            }
+            
         
-        System.out.println("Find! ===> src: "+src+" dest: "+dest);
-        
-        Dijkstra dij = new Dijkstra();
-        
-        // find source airport
-        for (Vertex airportSrc : airports) {
-            if(airportSrc.name.equals(src)){
-                dij.computePaths(airportSrc);
-                // find destination airport
-                for (Vertex airportDest : airports) {
-                    if(airportDest.name.equals(dest)){
-                        System.out.println("Distance to " + airportDest.name + ": " + airportDest.minDistance);
-                        List<Vertex> path = dij.getShortestPathTo(airportDest);
-                        System.out.println("Path: " +path+"\n");
-                        
-                    }
-                }
-            }
-        }
         //FindRouteUI fr = new FindRouteUI();
         //fr.validateInput();
         //System.out.println("From: " + from + " To: " + to);
@@ -347,6 +356,7 @@ public class FindRouteUI extends javax.swing.JFrame {
     private javax.swing.JTextField txtTo;
     // End of variables declaration//GEN-END:variables
 }
+
 
 class PassVerifier extends InputVerifier {
     @Override
