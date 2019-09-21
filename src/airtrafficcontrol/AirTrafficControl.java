@@ -30,11 +30,12 @@ public class AirTrafficControl {
     public static void main(String[] args) {
         AirTrafficControl mainData = new AirTrafficControl();
         mainData.loadData();
-        FindRouteUI fr = new FindRouteUI(mainData);
-        
+        //FindRouteUI fr = new FindRouteUI(mainData);
+        FindRoutesUI frs = new FindRoutesUI(mainData);
         
         //mainData.calc("DEN","AKL");
-        fr.setVisible(true);
+        //fr.setVisible(true);
+          frs.setVisible(true);
         //mainData.printPath(mainData.solution, mainData.codes, Arrays.binarySearch(mainData.codes,"AKL"));
 //        try {
 //            sleep(5000);
