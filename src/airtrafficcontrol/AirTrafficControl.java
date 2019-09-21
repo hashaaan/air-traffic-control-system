@@ -41,6 +41,9 @@ public class AirTrafficControl {
 //        mainData.calc("AKL","DOH");
         fr.setVisible(true);
 //        mainData.printPath(mainData.solution, mainData.codes, Arrays.binarySearch(mainData.codes,"DOH"));
+        // FindRoutesUI frs = new FindRoutesUI(mainData);
+        // frs.setVisible(true);
+        //mainData.printPath(mainData.solution, mainData.codes, Arrays.binarySearch(mainData.codes,"AKL"));
 //        try {
 //            sleep(5000);
 //        } catch (InterruptedException ex) {

@@ -27,7 +27,10 @@ public class Database {
     final void getConnection()
     {   
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost/center","root", "Tmj.123");
+            // Tmj's database con
+            // con = DriverManager.getConnection("jdbc:mysql://localhost/center","root", "Tmj.123");
+            // jzed's databse con
+            con = DriverManager.getConnection("jdbc:mysql://localhost/air_traffic_control","air_traffic", "123456");
         } catch (SQLException ex) {
             System.out.println("Connection Error : "+ex.getMessage());
         }

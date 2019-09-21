@@ -7,4 +7,4 @@
  * Author:  hashan
  * Created: Sep 7, 2019
  */
-CREATE TABLE `air_traffic_control`.`times` ( `source` VARCHAR(5) NULL DEFAULT NULL , `destination` VARCHAR(5) NULL DEFAULT NULL , `flight_time` DOUBLE NULL DEFAULT NULL ) ENGINE = InnoDB;
+CREATE TABLE `center`.`times` ( `source` VARCHAR(5) NULL DEFAULT NULL , `destination` VARCHAR(5) NULL DEFAULT NULL , `flighttime` DOUBLE NULL DEFAULT NULL ) ENGINE = InnoDB;
