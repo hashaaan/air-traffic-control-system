@@ -6,11 +6,11 @@
 package airtrafficcontrol;
 
 import static java.lang.Thread.sleep;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,26 +24,30 @@ public class AirTrafficControl {
     String[][] airports = new String[2][2];
     double[][] FTimes = new double[1][]; //to Flight Times
     double[][] solution = new double[3][3];
-    
+    String[] MAScodes = new String[1];
+    double[][] MASTimes = new double[1][2];
+    double[][] MASSolution = new double[2][2];
+    LinkedList<String> sol = new LinkedList<>();
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         AirTrafficControl mainData = new AirTrafficControl();
+        mainData.loadData();
         FindRouteUI fr = new FindRouteUI(mainData);
         
-        mainData.loadData();
-        mainData.calc("CMB","LHR");
-        fr.setVisible(true);
         
-        try {
-            sleep(5000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(AirTrafficControl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println();
-        mainData.display();
+//        mainData.calc("AKL","DOH");
+        fr.setVisible(true);
+//        mainData.printPath(mainData.solution, mainData.codes, Arrays.binarySearch(mainData.codes,"DOH"));
+//        try {
+//            sleep(5000);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(AirTrafficControl.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        System.out.println();
+//        mainData.display();
         
 //        mainData.insertAirport("HK", "Hong Kong International", "Hong Kong");
 //        
@@ -51,9 +55,9 @@ public class AirTrafficControl {
         
 //        mainData.deleteAirport("HK");
 //        mainData.display();
-        
-        mainData.updateAirport("MBN", "MBN","Male", "Maildives");
-        mainData.display();
+//        
+//        mainData.updateAirport("MBN", "MBN","Male", "Maildives");
+//        mainData.display();
         // AirTrafficControl atc = new AirTrafficControl();
         
         /*atc.loadData();
@@ -104,8 +108,8 @@ public class AirTrafficControl {
             
             //load Flighttime data to array
             while(rst.next()) {
-                int source = Arrays.binarySearch(codes,rst.getString("source"));
-                int destination = Arrays.binarySearch(codes,rst.getString("destination"));
+                int source = codeSearch(codes,rst.getString("source"));
+                int destination = codeSearch(codes,rst.getString("destination"));
                 FTimes[source][destination] = rst.getDouble("flighttime");
             }
             solution = new double[3][codes.length];
@@ -254,6 +258,16 @@ public class AirTrafficControl {
         return db.updateFlightTime(source, destination, FTime);
     }
     
+    int deleteFlightTime(String source,String destination)
+    {
+        int src = Arrays.binarySearch(codes, source);
+        int dest = Arrays.binarySearch(codes,destination);
+        FTimes[src][dest] = 0;
+        Database db = new Database();
+        db.deleteFlightTime(source, destination);
+        return 0;
+    }
+    
     void display() 
     {    
         System.out.print("\t");
@@ -302,7 +316,7 @@ public class AirTrafficControl {
 //                    Dijkstra's algorithm
                             
      void calc(String source, String destination)
-    {
+    {  
         int Nodecount = codes.length; 
         for(int i=0;i<Nodecount;i++)
         {
@@ -318,16 +332,21 @@ public class AirTrafficControl {
             }
             System.out.println();
         }
-        
-        int start = Arrays.binarySearch(codes, source);
-        
+        int dest = codeSearch(codes, destination);
+        int start = codeSearch(codes, source);
+        System.out.println("Solutiona  "+FTimes[start][dest] + "Start "+source+" "+destination);
         for(int i=0;i<Nodecount;i++)
         {
+            solution[0][i] = 0;
             solution[1][i] = -1;
+            solution[2][i] = -1;
         }
+        System.out.println("DFFFFF"+ start);
+        System.out.println("SS"+codes[start]+" "+destination);
         solution[1][start] = 0;
-        solution[2][start] = 99;
+        solution[2][start] = -99;
         solve(Nodecount, start);
+        System.out.println("DFFFFF");
         for(int i = 0; i<3; i++)
         {  
             for(int j = 0; j<Nodecount; j++)
@@ -336,19 +355,19 @@ public class AirTrafficControl {
             }
             System.out.println();
         }
-        int dest ;
-        dest = Arrays.binarySearch(codes, destination);
-        System.out.println("distance : " + solution[1][dest]);
-        System.out.print("Path : ");
+        
+//        dest = Arrays.binarySearch(codes, destination);
+//        System.out.println("distance : " + solution[1][dest]);
+//        System.out.print("Path : ");
         
     }
-    
-   
     
     void solve(int size,int start)
     {
         add(size, start);
+//        System.out.println("Before" + start);
         start = NodeN(size);
+        System.out.println("After "+start);
         if(start != -99)
         {
             solve(size, start);
@@ -357,14 +376,16 @@ public class AirTrafficControl {
     
     void add(int size,int start)
     {
+        System.out.println("Before"+size);
         solution[0][start] = 1;
-        for(int i =0; i<size;i++)
+        for(int i=0; i<size;i++)
         {
             if((FTimes[start][i]==0)||(solution[0][i]==1))
             {
                 
             }
             else{
+                System.out.println("sss"+solution[1][i]);
                 double distance = solution[1][start]+FTimes[start][i];
                 if(solution[1][i]==-1)
                 {
@@ -421,4 +442,90 @@ public class AirTrafficControl {
 //        return 0;
 //    }
     
+    void printPath(double[][] solutions,String[] nodes,int dest)
+    {
+        if(dest!=0)
+        {
+        System.out.println("KL Dest"+dest);
+        System.out.print(nodes[dest]);
+        if(solution[1][dest]!=0||solution[2][dest]!=0)
+        {
+            System.out.print("<-");
+            printPath(solution, nodes, (int)solution[2][dest]);
+        }
+        }
+    }
+    
+    //Prims
+    void getSelectedAirports(String[] selectedAs)
+    {
+        Arrays.sort(selectedAs);
+        double[][] selectedFtimes = new double[selectedAs.length][selectedAs.length];
+        int[] selectedIndexes = new int[selectedAs.length];
+        for(int i=0;i<selectedAs.length;i++)
+        {
+            selectedIndexes[i] = codeSearch(codes, selectedAs[i]);
+        }
+        for(int i=0;i<selectedAs.length;i++)
+        {
+            for(int j=0;j<selectedAs.length;j++)
+            {
+                selectedFtimes[i][j] = FTimes[selectedIndexes[i]][selectedIndexes[j]];
+            }
+        }
+        MAScodes = selectedAs;
+        MASTimes = selectedFtimes;
+        MASSolution = new double[3][selectedAs.length];
+    }
+    
+    void addMAS(int count)
+   {  
+        Iterator itr = sol.iterator();
+        double min=0;
+        int flag=0;
+        int minlocation[] = new int[2];
+        while(itr.hasNext())
+        {
+            int index = codeSearch(MAScodes,itr.next().toString());
+            for(int i=0;i<MAScodes.length;i++)
+            {
+                if(MASTimes[index][i]==0)
+                {
+                    
+                }
+                else 
+                {
+                    if(flag==0)
+                    {
+                        min = MASTimes[index][i];
+                        minlocation[0] = index;
+                        minlocation[1] = i;
+                    }
+                    else if(MASTimes[index][i]<min)
+                    {
+                        min = MASTimes[index][i];
+                        minlocation[0] = index;
+                        minlocation[1] = i;
+                    }
+                }
+            }
+        }
+        MASSolution[0][count] = minlocation[0];
+        MASSolution[1][count] = minlocation[1];
+        MASSolution[2][count] = min;
+        sol.add(MAScodes[minlocation[1]]);
+        if(count<MAScodes.length)
+        {
+            addMAS(count+1);
+        }
+    } 
+    
+    void MASSolve()
+    {
+        sol.add(MAScodes[0]);
+        for(int i=0;i<MAScodes.length-1;i++)
+        {
+            addMAS(i);
+        }
+    }   
 }
