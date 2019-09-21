@@ -6,8 +6,6 @@
 package airtrafficcontrol;
 
 import static java.lang.Thread.sleep;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -31,19 +29,20 @@ public class AirTrafficControl {
      */
     public static void main(String[] args) {
         AirTrafficControl mainData = new AirTrafficControl();
-        FindRouteUI fr = new FindRouteUI(mainData);
-        
         mainData.loadData();
-        mainData.calc("CMB","LHR");
-        fr.setVisible(true);
+//        FindRouteUI fr = new FindRouteUI(mainData);
         
-        try {
-            sleep(5000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(AirTrafficControl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println();
-        mainData.display();
+        
+        mainData.calc("DEN","AKL");
+//        fr.setVisible(true);
+        mainData.printPath(mainData.solution, mainData.codes, Arrays.binarySearch(mainData.codes,"AKL"));
+//        try {
+//            sleep(5000);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(AirTrafficControl.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        System.out.println();
+//        mainData.display();
         
 //        mainData.insertAirport("HK", "Hong Kong International", "Hong Kong");
 //        
@@ -51,9 +50,9 @@ public class AirTrafficControl {
         
 //        mainData.deleteAirport("HK");
 //        mainData.display();
-        
-        mainData.updateAirport("MBN", "MBN","Male", "Maildives");
-        mainData.display();
+//        
+//        mainData.updateAirport("MBN", "MBN","Male", "Maildives");
+//        mainData.display();
         // AirTrafficControl atc = new AirTrafficControl();
         
         /*atc.loadData();
@@ -254,6 +253,16 @@ public class AirTrafficControl {
         return db.updateFlightTime(source, destination, FTime);
     }
     
+    int deleteFlightTime(String source,String destination)
+    {
+        int src = Arrays.binarySearch(codes, source);
+        int dest = Arrays.binarySearch(codes,destination);
+        FTimes[src][dest] = 0;
+        Database db = new Database();
+        db.deleteFlightTime(source, destination);
+        return 0;
+    }
+    
     void display() 
     {    
         System.out.print("\t");
@@ -343,8 +352,6 @@ public class AirTrafficControl {
         
     }
     
-   
-    
     void solve(int size,int start)
     {
         add(size, start);
@@ -421,4 +428,13 @@ public class AirTrafficControl {
 //        return 0;
 //    }
     
+    void printPath(double[][] solutions,String[] nodes,int dest)
+    {
+        System.out.print(nodes[dest]);
+        if(solution[1][dest]!=0)
+        {
+            System.out.print("<-");
+            printPath(solution, nodes, (int)solution[2][dest]);
+        }
+    }
 }

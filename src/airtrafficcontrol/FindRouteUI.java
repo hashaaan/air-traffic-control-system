@@ -7,17 +7,24 @@ package airtrafficcontrol;
  */
 
 import java.awt.Color;
+import static java.lang.Thread.sleep;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -41,8 +48,50 @@ public class FindRouteUI extends javax.swing.JFrame {
     
      public FindRouteUI(AirTrafficControl air) {
           initComponents();
-         mainData = air;
+          
+         
+//          jScrollPane2
+         mainData = air;    
+         inLoad();
      }
+     
+     final void inLoad()
+     {
+        cmbDestination.removeAllItems();
+        cmbSource.removeAllItems();
+        cmbSource.setToolTipText(("Select Source"));
+        cmbDestination.setToolTipText("Select Destination");
+        for(int i=0;i<mainData.codes.length; i++)
+        {
+            cmbSource.addItem(new ComboItem(mainData.codes[i]+"-"+mainData.airports[0][i],mainData.codes[i]));
+            cmbDestination.addItem(new ComboItem(mainData.codes[i]+"-"+mainData.airports[0][i],mainData.codes[i]));
+        }
+        tblAirports.setModel(new DefaultTableModel(new Object[]{"Column1", "Column2"},1));
+//                new javax.swing.table.DefaultTableModel(
+//                            new Object [][] {
+//                                {null, null},
+//                                {null, null},
+//                                {null, null},
+//                                {null, null}
+//                            },
+//                            new String [] {
+//                                "Order", "Airport"
+//                            }
+//                        ) {
+//                            boolean[] canEdit = new boolean [] {
+//                                false, false
+//                            };
+//
+//                            public boolean isCellEditable(int rowIndex, int columnIndex) {
+//                                return canEdit [columnIndex];
+//                            }
+//                        }); 
+        
+     }
+     
+     private Object makeObj(final String item)  {
+     return new Object() { public String toString() { return item; } };
+   }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,14 +102,31 @@ public class FindRouteUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         mainTitle = new javax.swing.JLabel();
-        txtTo = new javax.swing.JTextField();
         labelFrom = new javax.swing.JLabel();
         labelTo = new javax.swing.JLabel();
-        txtFrom = new javax.swing.JTextField();
         btnFind = new javax.swing.JButton();
         errFrom = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        cmbDestination = new javax.swing.JComboBox();
+        cmbSource = new javax.swing.JComboBox();
+        txtTest = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblAirports = new javax.swing.JTable();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(" Air Traffic Control System");
@@ -69,30 +135,9 @@ public class FindRouteUI extends javax.swing.JFrame {
         mainTitle.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
         mainTitle.setText("Find The Shortest Route");
 
-        txtTo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtTo.setForeground(new java.awt.Color(19, 11, 11));
-        txtTo.setToolTipText("");
-        txtTo.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        txtTo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtToActionPerformed(evt);
-            }
-        });
-
         labelFrom.setText("From Where");
 
         labelTo.setText("To Where");
-
-        txtFrom.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtFrom.setForeground(new java.awt.Color(19, 11, 11));
-        txtFrom.setToolTipText("From");
-        txtFrom.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        txtFrom.setInheritsPopupMenu(true);
-        txtFrom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFromActionPerformed(evt);
-            }
-        });
 
         btnFind.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         btnFind.setText("Find");
@@ -102,18 +147,32 @@ public class FindRouteUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Minimum Duration :");
+        cmbDestination.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cmbSource.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        txtTest.setText("jTextField1");
+
+        tblAirports.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tblAirports);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(89, Short.MAX_VALUE)
+                .addContainerGap(57, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(228, 228, 228))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(mainTitle)
@@ -123,15 +182,25 @@ public class FindRouteUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(errFrom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtFrom, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
-                                .addGap(42, 42, 42)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(errFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(42, 42, 42))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(cmbSource, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                                 .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(93, 93, 93))))
+                                .addGap(292, 292, 292))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(300, 300, 300)
+                                .addComponent(cmbDestination, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,34 +209,36 @@ public class FindRouteUI extends javax.swing.JFrame {
                 .addComponent(mainTitle)
                 .addGap(58, 58, 58)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelTo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbSource)
+                    .addComponent(cmbDestination, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(errFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(178, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(txtTest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtToActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtToActionPerformed
-
-    private void txtFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFromActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFromActionPerformed
-
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
         // TODO add your handling code here:
-        txtFrom.setText(mainData.codes[0]);
-        mainData.codes[1] = "TEST";
+       
+       
+        mainData.codes[2] = "JK";
+        String destination = ((ComboItem)(cmbDestination.getSelectedItem())).getValue();
+        txtTest.setText(destination);
+        String source = ((ComboItem)(cmbSource.getSelectedItem())).getValue();
+        mainData.calc(source, destination);
+        int dest = Arrays.binarySearch(mainData.codes,destination);
+        int count=0;
+        printPath(mainData.solution, dest,  count);
 //        String src = txtFrom.getText();
 //        String dest = txtTo.getText();
 //        
@@ -196,6 +267,16 @@ public class FindRouteUI extends javax.swing.JFrame {
         //System.out.println("From: " + from + " To: " + to);
     }//GEN-LAST:event_btnFindActionPerformed
 
+    void printPath(double[][] solutions,int dest,int count)
+    {
+        DefaultTableModel model = (DefaultTableModel) tblAirports.getModel();
+        model.addRow(new Object[]{count,mainData.codes[dest]});
+//        tblAirports.getModel().setValueAt(mainData.codes[dest],count, 1);
+        if(solutions[1][dest]!=0)
+        {
+            printPath(solutions, (int)solutions[2][dest],count+1);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -260,100 +341,21 @@ public class FindRouteUI extends javax.swing.JFrame {
         }
     }
     
-    private void loadDataPQ() {
-        int count=0;
-        
-        // Dijkstra dij = new Dijkstra();
-        
-        // Database Connection
-        try {
-            
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/air_traffic_control","air_traffic", "123456");
-            
-            // Load airport data from database
-            String sql = "select * from airports order by akey";
-            Statement st = con.createStatement();
-            ResultSet rst = st.executeQuery(sql);
-            
-            while(rst.next()) {
-               count++;
-            }
-            
-            airports = new Vertex[count]; //initaiaze airports
-            
-            //Load airport identifications to array
-            while(rst.previous()) {
-                count--;
-                String akey = rst.getString("akey");    
-                airports[count] = new Vertex(akey);
-            }
-            
-            //Get flight time data from database
-            sql = "select * from times order by source";
-            rst = st.executeQuery(sql);
-            
-            //load Flighttime data to airports array
-            while(rst.next()) {
-                String src = rst.getString("source");
-                String dest = rst.getString("destination");
-                double duration = rst.getDouble("flight_time");
-                
-                // set edges and duration
-                setEdgesAndWeight(src, dest, duration);
-            }
-            
-            System.out.println("====================");
-            
-        } catch (SQLException ex) {
-            System.out.println("SQL Error "+ ex.getMessage());
-        }
-        
-        // mark all the vertices
-        //Vertex A = new Vertex("A");
-        //Vertex B = new Vertex("B");
-        //Vertex D = new Vertex("D");
-        //Vertex F = new Vertex("F");
-        //Vertex K = new Vertex("K");
-        //Vertex J = new Vertex("J");
-        //Vertex M = new Vertex("M");
-        //Vertex O = new Vertex("O");
-        //Vertex P = new Vertex("P");
-        //Vertex R = new Vertex("R");
-        //Vertex Z = new Vertex("Z");
-        
-        // set the edges and weight
-        //A.adjacencies = new Edge[]{ new Edge(M, 8) };
-        //B.adjacencies = new Edge[]{ new Edge(D, 11) };
-        //D.adjacencies = new Edge[]{ new Edge(B, 11) };
-        //F.adjacencies = new Edge[]{ new Edge(K, 23) };
-        //K.adjacencies = new Edge[]{ new Edge(O, 40) };
-        //J.adjacencies = new Edge[]{ new Edge(K, 25) };
-        //M.adjacencies = new Edge[]{ new Edge(R, 8) };
-        //O.adjacencies = new Edge[]{ new Edge(K, 40) };
-        //P.adjacencies = new Edge[]{ new Edge(Z, 18) };
-        //R.adjacencies = new Edge[]{ new Edge(P, 15) };
-        //Z.adjacencies = new Edge[]{ new Edge(P, 18) };
-        
-        //dij.computePaths(A);
-        //System.out.println("Distance to " + Z + ": " + Z.minDistance);
-        //List<Vertex> path = dij.getShortestPathTo(Z);
-        //System.out.println("Path: " + path);
-        
-        /* dij.computePaths(airports[0]);
-        System.out.println("Distance to " + airports[1].name + ": " + airports[1].minDistance);
-        List<Vertex> path = dij.getShortestPathTo(airports[1]);
-        System.out.println("Path: " + path);*/
-    }
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFind;
+    private javax.swing.JComboBox cmbDestination;
+    private javax.swing.JComboBox cmbSource;
     private javax.swing.JLabel errFrom;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelFrom;
     private javax.swing.JLabel labelTo;
     private javax.swing.JLabel mainTitle;
-    private javax.swing.JTextField txtFrom;
-    private javax.swing.JTextField txtTo;
+    private javax.swing.JTable tblAirports;
+    private javax.swing.JTextField txtTest;
     // End of variables declaration//GEN-END:variables
 }
 
@@ -373,3 +375,33 @@ class PassVerifier extends InputVerifier {
           }
     }
 }
+    class ComboItem
+{
+    private String key;
+    private String value;
+
+
+    public ComboItem(String key, String value)
+    {
+        this.key = key;
+        this.value = value;
+    
+    }
+
+    @Override
+    public String toString()
+    {
+        return key;
+    }
+
+    public String getKey()
+    {
+        return key;
+    }
+
+    public String getValue()
+    {
+        return value;
+    }
+}
+
