@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 public class MainAppContainer extends javax.swing.JFrame {
 
     Vertex[] airports = new Vertex[1];
+    Dijkstra dij = new Dijkstra();
 
     /**
      * Creates new form MainAppContainer
@@ -260,7 +261,7 @@ public class MainAppContainer extends javax.swing.JFrame {
                 .addComponent(mainTitle1)
                 .addGap(37, 37, 37)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -303,8 +304,6 @@ public class MainAppContainer extends javax.swing.JFrame {
 
         if (isValid) {
             System.out.println("Find! ===> src: " + src + " dest: " + dest);
-
-            Dijkstra dij = new Dijkstra();
 
             // find source airport
             for (Vertex airportSrc : airports) {
@@ -492,36 +491,41 @@ public class MainAppContainer extends javax.swing.JFrame {
             System.out.println("SQL Error " + ex.getMessage());
         }
         
-        Dijkstra dij = new Dijkstra();
-
-        // mark all the vertices
-        Vertex A = new Vertex("A", "", "");
-        Vertex B = new Vertex("B", "", "");
-        Vertex D = new Vertex("D", "", "");
-        Vertex F = new Vertex("F", "", "");
-        Vertex K = new Vertex("K", "", "");
-        Vertex J = new Vertex("J", "", "");
-        Vertex M = new Vertex("M", "", "");
-        Vertex O = new Vertex("O", "", "");
-        Vertex P = new Vertex("P", "", "");
-        Vertex R = new Vertex("R", "", "");
-        Vertex Z = new Vertex("Z", "", "");
-        // set the edges and weight
-        A.adjacencies = new Edge[]{ new Edge(M, 8) };
-        B.adjacencies = new Edge[]{ new Edge(D, 11) };
-        D.adjacencies = new Edge[]{ new Edge(B, 11) };
-        F.adjacencies = new Edge[]{ new Edge(K, 23) };
-        K.adjacencies = new Edge[]{ new Edge(O, 40) };
-        J.adjacencies = new Edge[]{ new Edge(K, 25) };
-        M.adjacencies = new Edge[]{ new Edge(R, 8) };
-        O.adjacencies = new Edge[]{ new Edge(K, 40) };
-        P.adjacencies = new Edge[]{ new Edge(Z, 18) };
-        R.adjacencies = new Edge[]{ new Edge(P, 15) };
-        Z.adjacencies = new Edge[]{ new Edge(P, 18) };
-        dij.computePaths(R);
-        System.out.println("Distance to " + Z  + ": " + Z.minDistance);
-        List<Vertex> path = dij.getShortestPathTo(Z);
-        System.out.println("Path: " + path);
+//        Dijkstra dij = new Dijkstra();
+//
+//        // mark all the vertices
+//        Vertex A = new Vertex("A", "", "");
+//        Vertex B = new Vertex("B", "", "");
+//        Vertex D = new Vertex("D", "", "");
+//        Vertex F = new Vertex("F", "", "");
+//        Vertex K = new Vertex("K", "", "");
+//        Vertex J = new Vertex("J", "", "");
+//        Vertex M = new Vertex("M", "", "");
+//        Vertex O = new Vertex("O", "", "");
+//        Vertex P = new Vertex("P", "", "");
+//        Vertex R = new Vertex("R", "", "");
+//        Vertex Z = new Vertex("Z", "", "");
+//        // set the edges and weight
+//        A.adjacencies = new Edge[]{ new Edge(M, 8) };
+//        B.adjacencies = new Edge[]{ new Edge(D, 11) };
+//        D.adjacencies = new Edge[]{ new Edge(B, 11) };
+//        F.adjacencies = new Edge[]{ new Edge(K, 23) };
+//        K.adjacencies = new Edge[]{ new Edge(O, 40) };
+//        J.adjacencies = new Edge[]{ new Edge(K, 25) };
+//        M.adjacencies = new Edge[]{ new Edge(R, 8) };
+//        O.adjacencies = new Edge[]{ new Edge(K, 40) };
+//        P.adjacencies = new Edge[]{ new Edge(Z, 18) };
+//        R.adjacencies = new Edge[]{ new Edge(P, 15) };
+//        Z.adjacencies = new Edge[]{ new Edge(P, 18) };
+//        dij.computePaths(R);
+//        System.out.println("Distance to " + Z  + ": " + Z.minDistance);
+//        List<Vertex> path = dij.getShortestPathTo(Z);
+//        System.out.println("Path: " + path);
+//        
+//        dij.computePaths(A);
+//        System.out.println("Distance to " + Z  + ": " + Z.minDistance);
+//        List<Vertex> path1 = dij.getShortestPathTo(Z);
+//        System.out.println("Path: " + path1);
     }
     
     private void loadAirportsTable() {
