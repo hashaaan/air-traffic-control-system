@@ -5,6 +5,8 @@
  */
 package airtrafficcontrol;
 
+import java.awt.Color;
+
 /**
  *
  * @author hashan
@@ -31,6 +33,31 @@ public class UpdateAirportUI extends javax.swing.JFrame {
             cmbAirports.addItem(new ComboItem(mainData.codes[i]+" - "+mainData.airports[0][i],mainData.codes[i]));
         }
     }
+    
+    public boolean validateForm() {
+        String airportName = txtName.getText();
+        String country = txtCountry.getText();
+        
+        if(airportName.equals("") || country.equals("")){
+        
+            if(airportName.equals("")){
+                errorName.setForeground(Color.red);
+                errorName.setText("Airport name is required!");
+            }
+
+            if(country.equals("")){
+                errorCountry.setForeground(Color.red);
+                errorCountry.setText("Airport country is required!");
+            }
+            
+            return false;
+        }
+        
+        errorName.setText("");
+        errorCountry.setText("");
+        
+        return true;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,6 +76,8 @@ public class UpdateAirportUI extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         btnUpdate = new javax.swing.JButton();
+        errorCountry = new javax.swing.JLabel();
+        errorName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(798, 534));
@@ -92,12 +121,15 @@ public class UpdateAirportUI extends javax.swing.JFrame {
 
         btnUpdate.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         btnUpdate.setText("UPDATE");
+        btnUpdate.setFocusPainted(false);
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
             }
         });
         getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 400, 240, 60));
+        getContentPane().add(errorCountry, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 340, 260, 20));
+        getContentPane().add(errorName, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 270, 260, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -115,9 +147,13 @@ public class UpdateAirportUI extends javax.swing.JFrame {
         String airportCode = ((ComboItem)(cmbAirports.getSelectedItem())).getValue();
         String airportName = txtName.getText();
         String country = txtCountry.getText();
-        System.out.println(airportCode+" "+airportName+" "+country);
-        //mainData.insertAirport(airportCode, airportName, country);
-        mainData.updateAirport(airportCode, airportCode, airportName, country);
+        
+        boolean isValid = validateForm();
+        
+        if(isValid){
+            System.out.println(airportCode+" "+airportName+" "+country);
+            mainData.updateAirport(airportCode, airportCode, airportName, country);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
@@ -158,6 +194,8 @@ public class UpdateAirportUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox cmbAirports;
+    private javax.swing.JLabel errorCountry;
+    private javax.swing.JLabel errorName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

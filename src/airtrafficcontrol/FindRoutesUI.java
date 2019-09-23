@@ -62,14 +62,14 @@ public class FindRoutesUI extends javax.swing.JFrame {
         tblAdded = new javax.swing.JTable();
         cmbAirports = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnFindRoute = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("FIND ROUTES");
+        setTitle("Find Minimum Routes");
         setPreferredSize(new java.awt.Dimension(1115, 621));
         setResizable(false);
         getContentPane().setLayout(null);
@@ -119,16 +119,16 @@ public class FindRoutesUI extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(190, 120, 200, 30);
 
-        jButton1.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
-        jButton1.setText("Find Route");
-        jButton1.setFocusPainted(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnFindRoute.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        btnFindRoute.setText("Find Route");
+        btnFindRoute.setFocusPainted(false);
+        btnFindRoute.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnFindRouteActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(760, 50, 200, 60);
+        getContentPane().add(btnFindRoute);
+        btnFindRoute.setBounds(760, 50, 200, 60);
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
         jLabel2.setText("Shortest Route and Duration");
@@ -165,7 +165,7 @@ public class FindRoutesUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnFindRouteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindRouteActionPerformed
         // TODO add your handling code here:
         int count = tblAdded.getRowCount();
         String[] codes = new String[count];
@@ -191,7 +191,7 @@ public class FindRoutesUI extends javax.swing.JFrame {
            
            
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnFindRouteActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
@@ -261,8 +261,8 @@ public class FindRoutesUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnFindRoute;
     private javax.swing.JComboBox cmbAirports;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -40,11 +40,14 @@ public class MainAppUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Air Traffic Control System");
+        setMaximumSize(new java.awt.Dimension(886, 563));
         setMinimumSize(new java.awt.Dimension(886, 563));
         setPreferredSize(new java.awt.Dimension(886, 563));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnAddAirport.setText("Add Airport");
+        btnAddAirport.setFocusPainted(false);
         btnAddAirport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddAirportActionPerformed(evt);
@@ -53,6 +56,7 @@ public class MainAppUI extends javax.swing.JFrame {
         getContentPane().add(btnAddAirport, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 220, 70));
 
         btnUpdateAirport.setText("Update Airport");
+        btnUpdateAirport.setFocusPainted(false);
         btnUpdateAirport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateAirportActionPerformed(evt);
@@ -61,6 +65,7 @@ public class MainAppUI extends javax.swing.JFrame {
         getContentPane().add(btnUpdateAirport, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 150, 210, 70));
 
         btnDeleteAirport.setText("Delete Airport");
+        btnDeleteAirport.setFocusPainted(false);
         btnDeleteAirport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteAirportActionPerformed(evt);
@@ -69,6 +74,7 @@ public class MainAppUI extends javax.swing.JFrame {
         getContentPane().add(btnDeleteAirport, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 150, 200, 70));
 
         btnFindShortestPath.setText("Find Shortest Path");
+        btnFindShortestPath.setFocusPainted(false);
         btnFindShortestPath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFindShortestPathActionPerformed(evt);
@@ -77,6 +83,7 @@ public class MainAppUI extends javax.swing.JFrame {
         getContentPane().add(btnFindShortestPath, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 230, 90));
 
         btnAllRoutes.setText("Find All Routes");
+        btnAllRoutes.setFocusPainted(false);
         btnAllRoutes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAllRoutesActionPerformed(evt);

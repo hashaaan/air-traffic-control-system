@@ -26,7 +26,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" value=" Air Traffic Control System"/>
+    <Property name="title" type="java.lang.String" value="Find Shortest Route"/>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[755, 598]"/>
     </Property>

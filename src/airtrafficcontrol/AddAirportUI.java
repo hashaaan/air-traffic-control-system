@@ -5,6 +5,8 @@
  */
 package airtrafficcontrol;
 
+import java.awt.Color;
+
 /**
  *
  * @author hashan
@@ -21,6 +23,38 @@ public class AddAirportUI extends javax.swing.JFrame {
     public AddAirportUI(AirTrafficControl atc) {
         initComponents();
         mainData = atc;
+    }
+    
+    public boolean validateForm(){
+        String airportCode = txtAirportCode.getText();
+        String airportName = txtName.getText();
+        String country = txtCountry.getText();
+        
+        if(airportCode.equals("") || airportName.equals("") || country.equals("")){
+            
+            if(airportCode.equals("")){
+                errorCode.setForeground(Color.red);
+                errorCode.setText("Airport code is required!");
+            }
+            
+            if(airportName.equals("")){
+                errorName.setForeground(Color.red);
+                errorName.setText("Airport name is required!");
+            }
+            
+            if(country.equals("")){
+                errorCountry.setForeground(Color.red);
+                errorCountry.setText("Airport country is required!");
+            }
+            
+            return false;
+        }
+        
+        errorCode.setText("");
+        errorName.setText("");
+        errorCountry.setText("");
+        
+        return true;
     }
 
     /**
@@ -40,9 +74,14 @@ public class AddAirportUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
+        errorCode = new javax.swing.JLabel();
+        errorCountry = new javax.swing.JLabel();
+        errorName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("ADD AIRPORT");
+        setTitle("Add Airport");
+        setMaximumSize(new java.awt.Dimension(798, 534));
+        setMinimumSize(new java.awt.Dimension(798, 534));
         setPreferredSize(new java.awt.Dimension(798, 534));
         setResizable(false);
         getContentPane().setLayout(null);
@@ -104,6 +143,12 @@ public class AddAirportUI extends javax.swing.JFrame {
         });
         getContentPane().add(btnAdd);
         btnAdd.setBounds(290, 390, 240, 60);
+        getContentPane().add(errorCode);
+        errorCode.setBounds(360, 180, 270, 20);
+        getContentPane().add(errorCountry);
+        errorCountry.setBounds(360, 320, 270, 20);
+        getContentPane().add(errorName);
+        errorName.setBounds(360, 250, 270, 20);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -126,8 +171,13 @@ public class AddAirportUI extends javax.swing.JFrame {
         String airportCode = txtAirportCode.getText();
         String airportName = txtName.getText();
         String country = txtCountry.getText();
-        System.out.println(airportCode+" "+airportName+" "+country);
-        mainData.insertAirport(airportCode, airportName, country);
+        
+        boolean isValid = validateForm();
+        
+        if(isValid){
+            System.out.println(airportCode+" "+airportName+" "+country);
+            mainData.insertAirport(airportCode, airportName, country);
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     /**
@@ -167,6 +217,9 @@ public class AddAirportUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JLabel errorCode;
+    private javax.swing.JLabel errorCountry;
+    private javax.swing.JLabel errorName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

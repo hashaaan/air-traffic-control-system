@@ -128,7 +128,7 @@ public class FindRouteUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle(" Air Traffic Control System");
+        setTitle("Find Shortest Route");
         setMinimumSize(new java.awt.Dimension(755, 598));
         setPreferredSize(new java.awt.Dimension(755, 598));
         setResizable(false);
